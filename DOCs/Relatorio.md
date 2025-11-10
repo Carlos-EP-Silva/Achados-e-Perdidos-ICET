@@ -152,12 +152,3 @@ As próximas etapas de documentação e entrega incluem:
 
 5. **Conclusão e Reflexão sobre o Aprendizado.**
 
----
-
-## 📚 Referências
-
-- Borges, Luiz Eduardo. *Python para Desenvolvedores*. 2ª ed. São Paulo: Novatec, 2014.  
-- Mozilla Developer Network (MDN). [https://developer.mozilla.org/](https://developer.mozilla.org/)  
-- W3Schools. [https://www.w3schools.com/](https://www.w3schools.com/)  
-- GitHub Docs. [https://docs.github.com/](https://docs.github.com/)
-
