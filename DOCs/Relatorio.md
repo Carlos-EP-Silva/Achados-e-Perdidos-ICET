@@ -8,8 +8,8 @@
 **Curso:** Bacharelado em Sistemas de Informação  
 **Disciplina:** Desenvolvimento Web  
 **Trabalho Final:** Sistema “Achados e Perdidos – ICET/UFAM”  
-**Aluno(s):** Carlos Eduardo [e colega, se houver]  
-**Professor:** [Nome do professor]  
+**Aluno(s):** Carlos Eduardo e Cintia Seixas  
+**Professor:** Antônio Alberto
 **Data de Entrega:** 03/12/2025  
 **Local:** Itacoatiara – AM  
 
@@ -20,7 +20,7 @@
 O projeto **“Achados e Perdidos – ICET/UFAM”** tem como objetivo desenvolver uma aplicação web completa, responsiva e integrada a um banco de dados MySQL, voltada para o gerenciamento de objetos perdidos e encontrados dentro do Instituto de Ciências Exatas e Tecnologia (ICET/UFAM).
 
 O sistema busca **substituir o controle manual atualmente utilizado**, que se baseia em registros em cadernos, por uma plataforma digital moderna e acessível.  
-Através dessa aplicação, será possível **registrar itens encontrados**, **reivindicar pertences**, **comunicar-se com o responsável** e **formalizar a devolução**, tudo de forma simples e centralizada.
+Através dessa aplicação, será possível **registrar itens encontrados**, **reivindicar pertences** e **formalizar a devolução**, tudo de forma simples e centralizada.
 
 O trabalho também atende aos requisitos da disciplina, contemplando:
 
@@ -35,14 +35,13 @@ O trabalho também atende aos requisitos da disciplina, contemplando:
 ## 2. Objetivos
 
 ### 2.1 Objetivo Geral
-Desenvolver um **sistema web funcional** que automatize o processo de controle de achados e perdidos do ICET/UFAM, com autenticação, comunicação interna e registro de devoluções.
+Desenvolver um **sistema web funcional** que automatize o processo de controle de achados e perdidos do ICET/UFAM, com autenticação e registro de devoluções.
 
 ### 2.2 Objetivos Específicos
 
 - Implementar um **sistema de login e autenticação** com diferentes perfis de usuário.  
 - Criar um **módulo de cadastro e listagem** de itens encontrados.  
-- Desenvolver um **fluxo de reivindicação e devolução** de objetos.  
-- Implementar um **chat interno** entre o usuário e o guarda.  
+- Desenvolver um **fluxo de reivindicação e devolução** de objetos.   
 - Integrar o sistema ao **banco de dados MySQL**.  
 - Garantir que o sistema seja **responsivo** e acessível via navegador e dispositivos móveis.  
 - Utilizar boas práticas de **desenvolvimento web**, incluindo rotas, CRUD, e manipulação de dados no backend.
@@ -55,7 +54,7 @@ Desenvolver um **sistema web funcional** que automatize o processo de controle d
 |:-------|:------------|:-----------|
 | **Frontend** | HTML5, CSS3, JavaScript (ou React.js) | Criação da interface responsiva e dinâmica. |
 | **Backend** | Node.js (Express) ou PHP (Laravel) | Processamento das requisições, autenticação e controle de acesso. |
-| **Banco de Dados** | MySQL | Armazenamento de usuários, itens, mensagens e registros de devolução. |
+| **Banco de Dados** | MySQL | Armazenamento de usuários, itens e registros de devolução. |
 | **Servidor** | XAMPP / Node Server | Ambiente de execução local e futura implantação. |
 | **Controle de Versão** | GitHub | Armazenamento do código-fonte e versionamento do sistema. |
 
@@ -74,7 +73,7 @@ As etapas foram organizadas da seguinte forma:
    Criação das telas principais no Figma e validação com o cliente (professor).
 
 3. **Desenvolvimento Incremental:**  
-   Cada módulo (segurança, comunicação, devolução) foi implementado e testado separadamente.
+   Cada módulo (segurança, devolução) foi implementado e testado separadamente.
 
 4. **Integração com Banco de Dados:**  
    Criação das tabelas no MySQL e integração via backend.
@@ -94,7 +93,6 @@ O sistema foi dividido em três **módulos principais**, conforme exigência da 
 | Módulo | Função | Implementação |
 |:--------|:--------|:---------------|
 | **Segurança** | Controle de autenticação e autorização. | Login com níveis de acesso (usuário, guarda, administrador). |
-| **Comunicação** | Canal de troca de mensagens entre usuários e guarda. | Chat interno vinculado à reivindicação de um item. |
 | **Transação (Devolução)** | Registro da devolução e finalização do processo. | Atualização de status do item para “Devolvido” no banco. |
 
 ---
@@ -103,7 +101,7 @@ O sistema foi dividido em três **módulos principais**, conforme exigência da 
 
 | Perfil | Descrição | Permissões |
 |:--------|:-----------|:------------|
-| **Usuário Comum (Aluno/Visitante)** | Pessoa que perdeu um item. | Cadastrar-se, visualizar itens, reivindicar, trocar mensagens. |
+| **Usuário Comum (Aluno/Visitante)** | Pessoa que perdeu um item. | Cadastrar-se, visualizar itens, reivindicar. |
 | **Guarda (Funcionário)** | Responsável por registrar e devolver itens. | Cadastrar itens, aprovar reivindicações, marcar devoluções. |
 | **Administrador** | Gestor do sistema. | Gerenciar contas, permissões e manutenção geral. |
 
@@ -119,8 +117,7 @@ O sistema foi dividido em três **módulos principais**, conforme exigência da 
 | **RF-04** | O usuário deve visualizar itens disponíveis. |
 | **RF-05** | O usuário deve poder reivindicar um item. |
 | **RF-06** | O guarda deve aprovar, negar e registrar devoluções. |
-| **RF-07** | O sistema deve permitir troca de mensagens entre usuário e guarda. |
-| **RF-08** | Itens devolvidos devem sair da listagem pública. |
+| **RF-07** | Itens devolvidos devem sair da listagem pública. |
 
 ---
 
