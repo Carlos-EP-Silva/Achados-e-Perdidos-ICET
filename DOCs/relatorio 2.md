@@ -112,13 +112,13 @@ Realizaram-se reuniões com o professor para:
 ### 5.1 Requisitos Funcionais [cite: 102]
 ID|Descrição|Ator Principal|
 |:---|:----|:-----|
-|RF01|Manter Usuários: Permitir cadastro (self-service para Usuário Comum) e login.|Todos|
-|RF02|"Cadastrar Item Perdido: O usuário registra o que perdeu (categoria, descrição, local provável)."|Usuário|
-|RF03|"Cadastrar Item Encontrado: O Guarda registra um item entregue no balcão (foto, descrição, local de armazenamento)."|Guarda|
-|RF04|"Consultar Itens: Pesquisa com filtros (data, categoria, local)."|Todos|
-|RF05|"Reivindicar Item: O usuário sinaliza que um item encontrado lhe pertence (""É meu"")."|Usuário|
-|RF06|"Registrar Devolução: O Guarda confirma a entrega do item, registrando o documento de quem retirou."|Guarda|
-|RF07|"Gerenciar Guardas: O Admin cadastra, edita ou remove acesso de Guardas."|Admin|
+|RF01|Permitir cadastro e login.|Todos|
+|RF02|Cadastrar Item Perdido: O usuário registra o que perdeu (categoria, descrição, local provável).|Usuário|
+|RF03|Cadastrar Item Encontrado: O Guarda registra um item entregue no balcão (foto, descrição, local encontrado).|Guarda|
+|RF04|Consultar Itens: Pesquisa com filtros (data, categoria, local).|Todos|
+|RF05|Reivindicar Item: O usuário sinaliza que um item encontrado lhe pertence.|Usuário|
+|RF06|Registrar Devolução: O Guarda confirma a entrega do item, registrando o documento de quem retirou.|Guarda|
+|RF07|Gerenciar Guardas: O Admin cadastra, edita ou remove acesso de Guardas.|Admin|
 |RF08|Dashboard/Relatório: Visualização simples de itens pendentes e devolvidos.|Admin/Guarda|
 
 ### 5.2 Requisitos Não-Funcionais 
