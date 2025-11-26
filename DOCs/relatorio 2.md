@@ -55,7 +55,7 @@ Utilizou-se prototipação evolutiva, onde cada versão do protótipo incorporou
 * **Iteração 4 (2 semanas):** Testes, validações finais e documentação. [cite: 47]
 
 ### 2.4 Consultas ao Cliente [cite: 48]
-Realizaram-se reuniões quinzenais com o professor para:
+Realizaram-se reuniões com o professor para:
 * Validação dos protótipos. [cite: 50]
 * Revisão dos diagramas UML. [cite: 51]
 * Demonstração das funcionalidades implementadas. [cite: 52]
@@ -73,7 +73,7 @@ Realizaram-se reuniões quinzenais com o professor para:
 * **Decisões:** Sistema web com três níveis de acesso, BD MySQL obrigatório, Interface responsiva. [cite: 61-64]
 
 **Entrevista 2**
-* **Data:** 00/11/2025 [cite: 65, 66]
+* **Data:** 26/11/2025 [cite: 65, 66]
 * **Assuntos:** Revisão de casos de uso, validação de protótipo de baixa fidelidade, fluxos principais. [cite: 67-70]
 * **Decisões:** Aprovação de diagramas, validação do fluxo de reivindicação, definição de perfis. [cite: 71-74]
 
@@ -93,7 +93,7 @@ Realizaram-se reuniões quinzenais com o professor para:
 
 | Atividade | Horas Investidas |
 | :--- | :--- |
-| **Planejamento e Requisitos** | 0h |
+| **Planejamento e Requisitos** | 5h |
 | **Diagramas UML** | 0h |
 | **Prototipação** | 0h |
 | **Módulo de Segurança** (Autenticação e controle) | 0h |
@@ -114,9 +114,10 @@ Realizaram-se reuniões quinzenais com o professor para:
 2.  **RF-02:** O sistema deve diferenciar três níveis de acesso (usuário, guarda, admin). [cite: 105]
 3.  **RF-03:** O guarda deve cadastrar itens achados com informações completas. [cite: 106]
 4.  **RF-04:** O usuário deve visualizar itens disponíveis com filtros. [cite: 108]
-5.  **RF-05:** O usuário deve poder reivindicar um item. [cite: 109]
+5.  **RF-05:** O usuário deve cadastrar um item perdido. [cite: 109]
 6.  **RF-06:** O guarda deve aprovar, negar e registrar devoluções. [cite: 110]
 7.  **RF-07:** Itens devolvidos devem sair da listagem pública. [cite: 111]
+8.  **RF-08:** O usuario deve visualizar itens achado e perdidos.
 
 ### 5.2 Requisitos Não-Funcionais [cite: 112]
 1.  **RNF-01:** A aplicação deve ser web responsiva (desktop e mobile). [cite: 113]
@@ -126,9 +127,9 @@ Realizaram-se reuniões quinzenais com o professor para:
 5.  **RNF-05:** Três níveis de acesso diferentes devem ser implementados. [cite: 120]
 
 ### 5.3 Atores do Sistema e Níveis de Acesso [cite: 121]
-* **Usuário Comum (Aluno/Visitante):** Visualizar itens, reivindicar itens, acompanhar reivindicações. [cite: 122-125]
-* **Guarda (Funcionário):** Cadastrar itens, aprovar/rejeitar reivindicações, registrar devoluções. [cite: 126-129]
-* **Administrador:** Gerenciar usuários, visualizar relatórios, configurar sistema. [cite: 130-133]
+* **Usuário Comum (Aluno/Visitante):** Visualizar itens perdidos e achados, cadastrar itens perdidos. 
+* **Guarda (Funcionário):** Cadastrar itens, aprovar/rejeitar reivindicações, registrar devoluções. 
+* **Administrador:** Gerenciar usuários, visualizar relatórios, configurar sistema.
 
 ---
 
