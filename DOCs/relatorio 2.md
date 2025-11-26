@@ -110,21 +110,37 @@ Realizaram-se reuniões com o professor para:
 ## 5. Levantamento de Requisitos [cite: 101]
 
 ### 5.1 Requisitos Funcionais [cite: 102]
-1.  **RF-01:** O sistema deve permitir cadastro e login de usuários. [cite: 103]
-2.  **RF-02:** O sistema deve diferenciar três níveis de acesso (usuário, guarda, admin). [cite: 105]
-3.  **RF-03:** O guarda deve cadastrar itens achados com informações completas. [cite: 106]
-4.  **RF-04:** O usuário deve visualizar itens disponíveis com filtros. [cite: 108]
-5.  **RF-05:** O usuário deve cadastrar um item perdido. [cite: 109]
-6.  **RF-06:** O guarda deve aprovar, negar e registrar devoluções. [cite: 110]
-7.  **RF-07:** Itens devolvidos devem sair da listagem pública. [cite: 111]
-8.  **RF-08:** O usuario deve visualizar itens achado e perdidos.
+ID|Descrição|Ator Principal|
+|:---|:----|:-----|
+|RF01|Manter Usuários: Permitir cadastro (self-service para Usuário Comum) e login.|Todos|
+|RF02|"Cadastrar Item Perdido: O usuário registra o que perdeu (categoria, descrição, local provável)."|Usuário|
+|RF03|"Cadastrar Item Encontrado: O Guarda registra um item entregue no balcão (foto, descrição, local de armazenamento)."|Guarda|
+|RF04|"Consultar Itens: Pesquisa com filtros (data, categoria, local)."|Todos|
+|RF05|"Reivindicar Item: O usuário sinaliza que um item encontrado lhe pertence (""É meu"")."|Usuário|
+|RF06|"Registrar Devolução: O Guarda confirma a entrega do item, registrando o documento de quem retirou."|Guarda|
+|RF07|"Gerenciar Guardas: O Admin cadastra, edita ou remove acesso de Guardas."|Admin|
+|RF08|Dashboard/Relatório: Visualização simples de itens pendentes e devolvidos.|Admin/Guarda|
 
-### 5.2 Requisitos Não-Funcionais [cite: 112]
-1.  **RNF-01:** A aplicação deve ser web responsiva (desktop e mobile). [cite: 113]
-2.  **RNF-02:** O sistema deve utilizar banco de dados MySQL. [cite: 115]
-3.  **RNF-03:** O backend deve garantir segurança e autenticação. [cite: 117]
-4.  **RNF-04:** A interface deve ser intuitiva e de fácil uso. [cite: 119]
-5.  **RNF-05:** Três níveis de acesso diferentes devem ser implementados. [cite: 120]
+### 5.2 Requisitos Não-Funcionais 
+
+|ID|Descrição|
+|:-|:--------|
+|**RNF-01:**| A aplicação deve ser web responsiva (desktop e mobile). |
+|**RNF-02:**| O sistema deve utilizar banco de dados MySQL. |
+|**RNF-03:**| O backend deve garantir segurança e autenticação.|
+|**RNF-04:**| A interface deve ser intuitiva e de fácil uso. |
+|**RNF-05:**| Três níveis de acesso diferentes devem ser implementados. |
+|**RNF-06:**| Disponibilidade: O sistema deve estar acessível via navegador web padrão (Chrome, Firefox, Edge).|
+
+### 5.3 Regras de Negócio (RN)
+
+Regras e restrições.
+|ID|Descrição|
+|:-|:--------|
+|**RN01:**| Apenas perfis do tipo Guarda podem alterar o status de um item para "Devolvido".|
+|**RN02:** |Usuários comuns não podem visualizar dados sensíveis (nome completo/documento) de quem achou ou reivindicou o item.|
+|**RN03:** |O sistema não deve permitir a exclusão física de um item que já foi devolvido (apenas exclusão lógica/arquivamento para histórico).|
+|**RN04:** |O cadastro de um item achado obrigatoriamente deve conter uma foto ou descrição detalhada.|
 
 ### 5.3 Atores do Sistema e Níveis de Acesso [cite: 121]
 * **Usuário Comum (Aluno/Visitante):** Visualizar itens perdidos e achados, cadastrar itens perdidos. 
