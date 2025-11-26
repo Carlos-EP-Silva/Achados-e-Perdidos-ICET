@@ -94,7 +94,7 @@ Realizaram-se reuniões com o professor para:
 | Atividade | Horas Investidas |
 | :--- | :--- |
 | **Planejamento e Requisitos** | 3h |
-| **Diagramas UML** | 0h |
+| **Diagramas UML** | 2h |
 | **Prototipação** | 0h |
 | **Módulo de Segurança** (Autenticação e controle) | 0h |
 | **Módulo de Transação** (Gestão de itens e reivindicações) | 0h |
