@@ -160,10 +160,19 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 
 ### 6.3 Diagramas de Sequência 
 ![Sequencia](https://drive.google.com/uc?export=view&id=1a1iC-e5ZfqMgjmIDwCKsaSsViiTfQY0A)
+
+---
+
 ### 6.4 Diagrama de Atividades 
 ![Atividades](https://drive.google.com/uc?export=view&id=1JKsFxXIq-EHPQq5b4I_RqcEtxZU-xkEO)
+
+---
+
 ### 6.5 Diagrama de Componentes
 ![Componentes](https://drive.google.com/uc?export=view&id=1rlmxyX519bF8RMS-o56vzFI4CruV6uYB)
+
+---
+
 ### 6.7 Diagrama de Banco de Dados (DER)
 ![DER](https://drive.google.com/uc?export=view&id=19SlCDhK0tMD69k98dT8mQDJNhLKjR6nX)
 
