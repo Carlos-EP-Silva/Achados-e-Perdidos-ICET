@@ -63,22 +63,22 @@ Realizaram-se reuniões com o professor para:
 
 ---
 
-## 3. Registro das Entrevistas com o Cliente [cite: 11]
+## 3. Registro das Entrevistas com o Cliente 
 
 > **Nota:** As datas listadas abaixo seguem o registro original do documento.
 
 **Entrevista 1**
-* **Data:** 00/11/2025 | **Participantes:** Carlos Eduardo, Prof. Antônio Alberto 
+* **Data:** 19/11/2025 | **Participantes:** Carlos Eduardo, Prof. Antônio Alberto 
 * **Assuntos:** Definição do escopo, validação de requisitos iniciais, tecnologias. 
 * **Decisões:** Sistema web com três níveis de acesso, BD MySQL obrigatório, Interface responsiva. 
 
 **Entrevista 2**
-* **Data:** 26/11/2025 [cite: 65, 66]
+* **Data:** 26/11/2025 
 * **Assuntos:** Revisão de casos de uso, validação de protótipo de baixa fidelidade, fluxos principais.
 * **Decisões:** Aprovação de diagramas, validação do fluxo de reivindicação, definição de perfis.
 
 **Entrevista 3**
-* **Data:** 00/11/2025 [cite: 75, 76]
+* **Data:** 00/11/2025 
 * **Assuntos:** Protótipo funcional, modelagem do banco de dados, módulo de segurança. 
 * **Decisões:** Aprovação da arquitetura, validação do DER, confirmação de tecnologias. 
 
@@ -89,21 +89,18 @@ Realizaram-se reuniões com o professor para:
 
 ---
 
-## 4. Registro do Tempo Investido [cite: 96]
+## 4. Registro do Tempo Investido 
 
 | Atividade | Horas Investidas |
 | :--- | :--- |
 | **Planejamento e Requisitos** | 3h |
 | **Diagramas UML** | 6h |
 | **Prototipação** | 0h |
-| **Módulo de Segurança** (Autenticação e controle) | 0h |
-| **Módulo de Transação** (Gestão de itens e reivindicações) | 0h |
-| **Banco de Dados** (Modelagem e MySQL) | 0h |
+| **Banco de Dados** (Modelagem e MySQL) | 4h |
 | **Frontend Responsivo** (Desktop, tablet e mobile) | 0h |
 | **Testes e Validação** | 0h |
-| **Documentação** | 0h |
+| **Documentação** | 8h |
 | **TOTAL GERAL** | **0h** |
-[cite: 98]
 
 ---
 
@@ -120,6 +117,7 @@ ID|Descrição|Ator Principal|
 |RF06|Registrar Devolução: O Guarda confirma a entrega do item, registrando o documento de quem retirou.|Guarda|
 |RF07|Gerenciar Guardas: O Admin cadastra, edita ou remove acesso de Guardas.|Admin|
 |RF08|Dashboard/Relatório: Visualização simples de itens pendentes e devolvidos.|Admin/Guarda|
+|RF09|Permite compartilhar um item à uma rede social externa|Usuario/Guarda|
 
 ### 5.2 Requisitos Não-Funcionais 
 
