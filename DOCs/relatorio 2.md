@@ -172,7 +172,7 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 ---
 
 ### 6.7 Diagrama de Banco de Dados (DER)
-![DER](https://drive.google.com/uc?export=view&id=19SlCDhK0tMD69k98dT8mQDJNhLKjR6nX)
+
 
 ---
 
