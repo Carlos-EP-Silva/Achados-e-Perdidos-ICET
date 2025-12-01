@@ -166,7 +166,12 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 
 ---
 
-### 6.5 Diagrama de Componentes
+### 6.5 Diagrama de Estados 
+![Estados](https://drive.google.com/uc?export=view&id=11v93BprsdMYL39P0LsjtBGGj_xZFTdNz)
+
+---
+
+### 6.6 Diagrama de Componentes
 ![Componentes](https://drive.google.com/uc?export=view&id=1rlmxyX519bF8RMS-o56vzFI4CruV6uYB)
 
 ---
