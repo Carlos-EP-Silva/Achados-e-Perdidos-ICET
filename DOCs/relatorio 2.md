@@ -153,8 +153,14 @@ Esta seção descreve a estrutura dos diagramas projetados.
 
 ### 6.1 Diagrama de Casos de Uso
 Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalidades principais (Login, Cadastro, Reivindicação, etc.).
+![Caso](https://drive.google.com/uc?export=view&id=1vXy-KPTIVQzeXCOQp5WvmsFCysg3zJnW)
+
+---
 
 ### 6.2 Diagrama de Classes (Principais Classes)
+![Classe](https://drive.google.com/uc?export=view&id=1zG_t1tOM-dH-yQvgjldCjS7JVsoXnZR5)
+
+---
 
 ### 6.3 Diagramas de Sequência 
 ![Sequencia](https://drive.google.com/uc?export=view&id=1a1iC-e5ZfqMgjmIDwCKsaSsViiTfQY0A)
@@ -177,7 +183,7 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 ---
 
 ### 6.7 Diagrama de Banco de Dados (DER)
-
+![DER](https://drive.google.com/uc?export=view&id=1QPX7SDLCybpGJmegDBEOP6NWxRiL-KYx)
 
 ---
 
