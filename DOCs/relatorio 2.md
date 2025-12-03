@@ -163,22 +163,22 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 ---
 
 ### 6.3 Diagramas de Sequência 
-![Sequencia](https://drive.google.com/uc?export=view&id=1a1iC-e5ZfqMgjmIDwCKsaSsViiTfQY0A)
+![Sequencia](https://drive.google.com/uc?export=view&id=1hrde1nFy-TKI2VwNIoXqhYjDjH7wxR6J)
 
 ---
 
 ### 6.4 Diagrama de Atividades 
-![Atividades](https://drive.google.com/uc?export=view&id=1JKsFxXIq-EHPQq5b4I_RqcEtxZU-xkEO)
+![Atividades](https://drive.google.com/uc?export=view&id=1gB82Jw4fSPS3qtIxsWAsj0a_FYJA7VOv)
 
 ---
 
 ### 6.5 Diagrama de Estados 
-![Estados](https://drive.google.com/uc?export=view&id=11v93BprsdMYL39P0LsjtBGGj_xZFTdNz)
+![Estados](https://drive.google.com/uc?export=view&id=1n8sowKsMmwPIAeooim-CvO_gKwwJYfkS)
 
 ---
 
 ### 6.6 Diagrama de Componentes
-![Componentes](https://drive.google.com/uc?export=view&id=1rlmxyX519bF8RMS-o56vzFI4CruV6uYB)
+![Componentes](https://drive.google.com/uc?export=view&id=1Cjtp_hbecAmthCcz61FbYWmbyN_k8RZO)
 
 ---
 
