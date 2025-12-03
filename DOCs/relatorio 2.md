@@ -168,7 +168,7 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 ---
 
 ### 6.2 Diagrama de Classes (Principais Classes)
-![Classes](https://drive.google.com/uc?export=view&id=1pQzo8ZB82X3Za-_RlF5_XS2g2Qv321tB)
+![Classe](https://drive.google.com/uc?export=view&id=1mcgaaldWE6Lt8aH0ecfnBP_MD4_d-EWk)
 
 ---
 
@@ -193,7 +193,11 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 ---
 
 ### 6.7 Diagrama de Banco de Dados (DER)
-![DER](https://drive.google.com/uc?export=view&id=1jjDO0YipB9nejTVIbdQNRKTLsFDbXY7P)
+![DER](https://drive.google.com/uc?export=view&id=1iIoOLAmy5iQ3M-_9Ngb337PkonmvBkoI)
+
+---
+
+![der](https://drive.google.com/uc?export=view&id=1VEtHBzf4A91CsB35vPXg9eWTVnklrFL5)
 
 ---
 
