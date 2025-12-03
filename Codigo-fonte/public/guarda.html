@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Guarda - Achados & Perdidos - ICET/UFAM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark navbar-custom mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1"><i class="bi bi-shield-lock"></i> Achados & Perdidos - ICET/UFAM -- Área do Guarda</span>
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-white small" id="nomeGuarda">Carregando...</span>
+                <a href="index.html" class="btn btn-outline-light btn-sm">Ir para Home</a>
+                <button onclick="logout()" class="btn btn-danger btn-sm">Sair</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <ul class="nav nav-tabs mb-4" id="guardaTabs" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active text-success" id="cadastro-tab" data-bs-toggle="tab" data-bs-target="#cadastro" type="button">
+                    <i class="bi bi-plus-circle"></i> Cadastrar Item Achado
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link text-success" id="pendencias-tab" data-bs-toggle="tab" data-bs-target="#pendencias" type="button" onclick="carregarPendencias()">
+                    <i class="bi bi-list-check"></i> Reivindicações Pendentes
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link text-success" id="acervo-tab" data-bs-toggle="tab" data-bs-target="#acervo" type="button" onclick="carregarAcervo()">
+                    <i class="bi bi-box-seam"></i> Baixa Presencial / Acervo
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="guardaTabsContent">
+            
+            <div class="tab-pane fade show active" id="cadastro">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Novo Item Encontrado</h4>
+                        <form id="formItem">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">O que foi achado?</label>
+                                    <input type="text" name="titulo" class="form-control" placeholder="Ex: Garrafa Térmica Azul" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Local Encontrado</label>
+                                    <input type="text" name="local_ocorrencia" class="form-control" placeholder="Ex: Bloco B, Sala 102" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Descrição Detalhada</label>
+                                <textarea name="descricao" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Data do Encontro</label>
+                                    <input type="date" name="data_ocorrencia" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Foto do Item</label>
+                                    <input type="file" name="foto" class="form-control" accept="image/*">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 py-2">Registrar no Sistema</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pendencias">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Solicitações de Alunos</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Solicitante</th>
+                                        <th>Data</th>
+                                        <th>Foto</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-pendencias"></tbody>
+                            </table>
+                            <p id="msg-sem-pendencias" class="text-center text-muted d-none">Nenhuma pendência.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="acervo">
+                <div class="card shadow-sm mt-3">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-collection"></i> Itens no Acervo (Disponíveis)
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small">Selecione um item abaixo para registrar a entrega presencial.</p>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Local</th>
+                                        <th>Data Encontro</th>
+                                        <th class="text-center">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-acervo">
+                                    <tr><td colspan="4" class="text-center">Clique na aba para carregar...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalBaixaPresencial" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Devolução Presencial</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Preencha os dados de quem está retirando o item.</p>
+                    <form id="formBaixaPresencial">
+                        <input type="hidden" id="baixaItemId">
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nome Completo</label>
+                            <input type="text" id="baixaNome" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Documento (RG/CPF)</label>
+                            <input type="text" id="baixaDoc" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Contato (Email ou Telefone)</label>
+                            <input type="text" id="baixaContato" class="form-control" placeholder="(92) 9xxxx-xxxx ou email@..." required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="confirmarBaixaPresencial()">
+                        <i class="bi bi-box-seam"></i> Confirmar Entrega
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script/guarda.js"></script>
+</body>
+</html>
