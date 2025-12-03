@@ -76,7 +76,7 @@ Realizaram-se reuniões com o professor para:
 * **Decisões:** Aprovação de diagramas, validação do fluxo de reivindicação, definição de perfis.
 
 **Entrevista 3**
-* **Data:** 28/11/2025
+* **Data:** 01/12/2025
 * **Assuntos:** Protótipo funcional, modelagem do banco de dados, módulo de segurança.
 * **Decisões:** Aprovação da arquitetura, validação do DER, confirmação de tecnologias.
 
