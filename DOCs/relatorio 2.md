@@ -197,7 +197,7 @@ Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalid
 
 ---
 
-## 7. Protótipos de Telas [cite: 323]
+## 7. Protótipos de Telas 
 
 O desenvolvimento seguiu três fases de prototipação:
 1.  **Baixa Fidelidade:** Wireframes iniciais. 
