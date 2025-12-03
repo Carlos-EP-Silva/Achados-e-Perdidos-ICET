@@ -163,7 +163,7 @@ Esta seção descreve a estrutura dos diagramas projetados.
 
 ### 6.1 Diagrama de Casos de Uso
 Mapeia as interações entre Usuário, Guarda e Administrador com as funcionalidades principais (Login, Cadastro, Reivindicação, etc.).
-![Caso](https://drive.google.com/uc?export=view&id=1vXy-KPTIVQzeXCOQp5WvmsFCysg3zJnW)
+![Caso](https://drive.google.com/uc?export=download&id=1jrSOp7JmnYMAZ0zEnuLDqNCLk7U9EG5z)
 
 ---
 
