@@ -92,13 +92,13 @@ Realizaram-se reuniões com o professor para:
 | Atividade | Horas Investidas |
 | :--- | :--- |
 | **Planejamento e Requisitos** | 3h |
-| **Diagramas UML** | 6h |
+| **Diagramas UML** | 10h |
 | **Prototipação** | 2h |
 | **Banco de Dados** (Modelagem e MySQL) | 6h |
 | **Frontend Responsivo** (Desktop, tablet e mobile) | 12h |
 | **Testes e Validação** | 2h |
 | **Documentação** | 8h |
-| **TOTAL GERAL** | **37h** |
+| **TOTAL GERAL** | **43h** |
 
 ---
 
