@@ -86,44 +86,39 @@ module.exports = {
     // 2. REGISTER (Criar Conta)
     // =========================================================
     async register(req, res) {
-        // Agora recebemos telefone e documento do front-end
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Agora o back-end extrai todos os campos enviados pelo Vercel
+        const { nome, email, senha, documento, categoria, telefone } = req.body;
 
-    if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Formato de e-mail inválido. Digite um e-mail real.' });
-}
-        const { nome, email, senha, telefone, documento, categoria } = req.body;
-
-        if (!nome || !email || !senha || !telefone || !documento) {
-            return res.status(400).json({ message: 'Preencha todos os campos obrigatórios!' });
+        // Validação de segurança: Impede que o MySQL exploda se faltar algo
+        if (!nome || !email || !senha || !documento || !telefone) {
+            return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
         }
 
         try {
-            const [rows] = await db.query('SELECT id FROM usuarios WHERE email = ? OR documento = ?', [email, documento]);
-            if (rows.length > 0) {
-                return res.status(400).json({ message: 'Este email ou documento já está em uso.' });
+            // Verifica se o email ou documento já existem no banco
+            const [users] = await db.query('SELECT * FROM usuarios WHERE email = ? OR documento = ?', [email, documento]);
+            if (users.length > 0) {
+                return res.status(400).json({ message: 'Este E-mail ou Documento já está cadastrado no sistema.' });
             }
 
+            // Criptografa a senha antes de salvar
             const salt = await bcrypt.genSalt(10);
             const hashSenha = await bcrypt.hash(senha, salt);
 
-            // Inserção com todos os campos exigidos pelo banco atual
-            const [result] = await db.query(
-                'INSERT INTO usuarios (nome, email, senha, telefone, documento, categoria, tipo, ativo) VALUES (?, ?, ?, ?, ?, ?, "usuario", 1)',
+            // Insere todos os dados corretamente na tabela
+            await db.query(
+                'INSERT INTO usuarios (nome, email, senha, telefone, documento, categoria) VALUES (?, ?, ?, ?, ?, ?)',
                 [nome, email, hashSenha, telefone, documento, categoria || 'Aluno']
             );
 
-            // Qualidade: Log de auditoria
-            await db.query(`INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)`, 
-                [result.insertId, 'NOVO_USUARIO', 'usuarios', `Usuário ${nome} registrado no sistema.`]);
-
-            res.status(201).json({ message: 'Cadastro realizado com sucesso! Faça login.' });
+            res.status(201).json({ message: 'Conta criada com sucesso!' });
 
         } catch (err) {
-            console.error('Erro no Cadastro:', err);
-            res.status(500).json({ message: 'Erro interno ao realizar cadastro.' });
+            console.error('Erro profundo no cadastro:', err);
+            res.status(500).json({ message: 'Erro interno ao tentar salvar no banco de dados.' });
         }
-    },
+    }, 
+    
     async recuperarSenha(req, res) {
         const { email } = req.body;
         if (!email) return res.status(400).json({ message: 'E-mail obrigatório.' });
