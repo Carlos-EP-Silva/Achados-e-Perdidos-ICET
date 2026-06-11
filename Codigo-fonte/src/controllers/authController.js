@@ -6,13 +6,17 @@ const crypto = require('crypto'); // Nativo do Node.js
 const nodemailer = require('nodemailer');
 const SECRET_KEY = process.env.JWT_SECRET || 'chave_super_secreta_da_ufam';
 
+// Configuração do disparador de e-mail (Forçando SSL e contornando bloqueios IPv6)
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false, 
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // true obriga a usar a porta 465 (SSL)
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false // Evita que o Render bloqueie o certificado do Google
     }
 });
 module.exports = {
@@ -118,7 +122,7 @@ module.exports = {
             res.status(500).json({ message: 'Erro interno ao tentar salvar no banco de dados.' });
         }
     }, 
-    
+
     async recuperarSenha(req, res) {
         const { email } = req.body;
         if (!email) return res.status(400).json({ message: 'E-mail obrigatório.' });

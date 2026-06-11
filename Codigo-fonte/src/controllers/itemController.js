@@ -3,13 +3,17 @@ const db = require('../config/db');
 const nodemailer = require('nodemailer'); // ADICIONE ESTA LINHA
 
 // Configuração do disparador de e-mail (usando as mesmas credenciais do .env)
+// Configuração do disparador de e-mail (Forçando SSL e contornando bloqueios IPv6)
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: process.env.EMAIL_PORT || 587,
-    secure: false,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // true obriga a usar a porta 465 (SSL)
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false // Evita que o Render bloqueie o certificado do Google
     }
 });
 exports.listarItens = async (req, res) => {
