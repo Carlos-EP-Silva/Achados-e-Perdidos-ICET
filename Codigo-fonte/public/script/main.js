@@ -1,5 +1,5 @@
 // main.js
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://achados-e-perdidos-icet.onrender.com';
 let usuarioLogado = null;
 
 // Ao carregar a página

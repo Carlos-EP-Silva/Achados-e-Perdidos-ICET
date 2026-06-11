@@ -1,5 +1,5 @@
 // script/auth.js
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://achados-e-perdidos-icet.onrender.com';
 
 // --- LÓGICA DE LOGIN ---
 const formLogin = document.getElementById('formLogin');
