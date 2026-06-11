@@ -69,6 +69,7 @@ if (formCadastro) {
         const senha = document.getElementById('cadSenha').value;
         const categoria = document.getElementById('cadCategoria').value;
         const documento = document.getElementById('cadDocumento').value;
+        const telefone = document.getElementById('telefone').value;
         const btnSubmit = formCadastro.querySelector('button[type="submit"]');
 
         btnSubmit.innerText = 'Cadastrando...';
@@ -76,10 +77,10 @@ if (formCadastro) {
 
         try {
             const res = await fetch(`${API_URL}/auth/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nome, email, senha, categoria, documento })
-            });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nome, email, senha, documento, categoria, telefone }) // <-- GARANTIR QUE O TELEFONE ESTÁ AQUI
+});
 
             const data = await res.json();
 
