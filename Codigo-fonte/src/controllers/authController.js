@@ -1,9 +1,9 @@
 // controllers/authController.js
 const db = require('../config/db');
+const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto'); // Nativo do Node.js
-const nodemailer = require('nodemailer');
 const SECRET_KEY = process.env.JWT_SECRET || 'chave_super_secreta_da_ufam';
 
 // Configuração do disparador de e-mail (Forçando SSL e contornando bloqueios IPv6)
