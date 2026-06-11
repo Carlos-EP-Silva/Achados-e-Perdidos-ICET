@@ -1,8 +1,17 @@
 // controllers/itemController.js
 const db = require('../config/db');
+const nodemailer = require('nodemailer'); // ADICIONE ESTA LINHA
 
-// 1. Função para LISTAR itens
-// Função para LISTAR itens com paginação
+// Configuração do disparador de e-mail (usando as mesmas credenciais do .env)
+const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT || 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 exports.listarItens = async (req, res) => {
     // Pega a página atual da URL (Padrão: página 1, 6 itens por vez)
     const page = parseInt(req.query.page) || 1;
