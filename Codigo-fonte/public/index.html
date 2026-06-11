@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achados & Perdidos - ICET/UFAM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-box-seam fs-4"></i> Achados & Perdidos ICET
+            </a>
+            <button id="btn-tema" class="btn btn-sm btn-outline-light ms-3" onclick="alternarTema()">
+    <i class="bi bi-moon-stars-fill"></i>
+</button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center" id="menu-nav">
+                    </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-ufam-gradient py-5 text-center text-white shadow-sm">
+        <div class="container py-4">
+            <h1 class="display-4 fw-bold mb-3"><i class="bi bi-search"></i> O que você perdeu hoje?</h1>
+            <p class="lead text-light mb-4">Consulte o acervo digital de itens encontrados no campus do ICET.</p>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="input-group input-group-lg shadow-sm rounded-3 mb-3">
+                        <span class="input-group-text bg-white border-0 text-muted"><i class="bi bi-funnel"></i></span>
+                        <input type="text" class="form-control border-0" id="buscaInput" onkeyup="filtrarItens()" placeholder="Ex: Garrafa, Caderno, Chave...">
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-center gap-2" id="filtros-tags">
+                        <button class="btn btn-sm btn-outline-light rounded-pill" onclick="filtrarPorTag('Eletrônico')"><i class="bi bi-laptop"></i> Eletrônicos</button>
+                        <button class="btn btn-sm btn-outline-light rounded-pill" onclick="filtrarPorTag('Documento')"><i class="bi bi-person-vcard"></i> Documentos</button>
+                        <button class="btn btn-sm btn-outline-light rounded-pill" onclick="filtrarPorTag('Acessório')"><i class="bi bi-bag"></i> Acessórios</button>
+                        <button class="btn btn-sm btn-outline-light rounded-pill" onclick="filtrarPorTag('Vestuário')"><i class="bi bi-file-person"></i> Vestuário</button>
+                        <button class="btn btn-sm btn-light rounded-pill text-success fw-bold" onclick="filtrarPorTag('')">Ver Todos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+            <h3 class="text-dark fw-bold mb-0">Itens Recentes</h3>
+            <span class="text-muted small"><i class="bi bi-info-circle"></i> Atualizado em tempo real</span>
+        </div>
+        
+        <div id="lista-itens" class="row g-4">
+            <div class="text-center py-5">
+                <div class="spinner-border text-success" role="status"></div>
+                <p class="mt-2 text-muted">Buscando itens no acervo...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalReivindicar" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-ufam-gradient text-white border-0">
+                    <h5 class="modal-title"><i class="bi bi-check2-circle"></i> Confirmação de Propriedade</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-center fw-bold text-dark fs-5 mb-1">Este item é seu?</p>
+                    <p class="text-center text-muted mb-4">Ao confirmar, o guarda do campus será notificado para aprovar sua solicitação.</p>
+                    <input type="hidden" id="idItemReivindicar">
+                    <div class="alert alert-warning border-0 small d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill text-warning fs-4"></i>
+                        <span>Falsidade ideológica ou tentativa de retirada de itens de terceiros é passível de sanções institucionais.</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pb-4 px-4">
+                    <button type="button" class="btn btn-light w-100 mb-2" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-ufam w-100 m-0" onclick="enviarReivindicacao()">Sim, confirmar solicitação</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4 mt-auto">
+        <div class="container">
+            <small class="text-muted">Desenvolvido por Carlos Eduardo e Cintia Seixas</small><br>
+            <small>ICET/Universidade Federal do Amazonas &copy; 2026</small>
+        </div>
+    </footer>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fw-bold" id="toastMessage">
+                    Ação realizada!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script/main.js"></script>
+</body>
+</html>
