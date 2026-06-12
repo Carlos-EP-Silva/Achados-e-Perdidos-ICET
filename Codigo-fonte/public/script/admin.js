@@ -76,6 +76,7 @@ async function carregarDashboard() {
         // Tabela: Reivindicações Recentes
         preencherTabelaReivindicacoes(dados.reivindicacoesPendentes);
 
+        renderizarGrafico(dados);
     } catch (err) {
         console.error("Erro ao carregar dashboard:", err);
     }
