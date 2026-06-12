@@ -89,6 +89,40 @@ module.exports = {
     }
   },
 
+  async reativarGuarda(req, res) {
+    const { id } = req.params;
+    try {
+        await db.query("UPDATE usuarios SET ativo = 1 WHERE id = ? AND tipo = 'guarda'", [id]);
+        
+        await db.query(`INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)`, 
+            [req.user.id, 'REATIVAR_GUARDA', 'usuarios', `Admin reativou o guarda ID: ${id}`]);
+
+        res.json({ message: 'Guarda reativado com sucesso.' });
+    } catch (err) {
+        console.error('Erro no reativarGuarda:', err);
+        res.status(500).json({ message: 'Erro ao reativar guarda.' });
+    }
+  },
+
+  // Excluir permanentemente (Arquivar)
+  async excluirGuarda(req, res) {
+    const { id } = req.params;
+    try {
+        await db.query("DELETE FROM usuarios WHERE id = ? AND tipo = 'guarda'", [id]);
+        
+        await db.query(`INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)`, 
+            [req.user.id, 'EXCLUIR_GUARDA', 'usuarios', `Admin excluiu o guarda ID: ${id}`]);
+
+        res.json({ message: 'Guarda excluído permanentemente.' });
+    } catch (err) {
+        console.error('Erro no excluirGuarda:', err);
+        // Se o banco bloquear por causa de chaves estrangeiras (histórico), devolvemos um erro amigável:
+        if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+            return res.status(400).json({ message: 'Este guarda já possui histórico de itens devolvidos. Mantenha-o desativado para preservar o relatório.' });
+        }
+        res.status(500).json({ message: 'Erro ao excluir guarda.' });
+    }
+  },
   async gerarRelatorio(req, res) {
     try {
         // CORREÇÃO: Alterado d.data_devolucao para d.data_criacao

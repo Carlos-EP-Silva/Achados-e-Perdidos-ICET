@@ -188,22 +188,36 @@ async function carregarGuardas() {
         guardas.forEach(g => {
             // Verifica status (o banco retorna 1 ou 0)
             // Se g.ativo for 1 (true), badge verde. Se 0 (false), badge vermelha.
+            // O badge visual
             const statusBadge = g.ativo 
                 ? '<span class="badge bg-success">Ativo</span>' 
                 : '<span class="badge bg-danger">Inativo</span>';
 
-            const btnDesativar = g.ativo 
-                ? `<button class="btn btn-sm btn-outline-danger" onclick="removerGuarda(${g.id})">
-                     <i class="bi bi-person-x"></i> Desativar
-                   </button>`
-                : `<button class="btn btn-sm btn-outline-secondary" disabled>Desativado</button>`;
+            // Os botões dinâmicos
+            let botoesAcao = '';
+            if (g.ativo) {
+                botoesAcao = `
+                    <button class="btn btn-sm btn-outline-warning" onclick="removerGuarda(${g.id})" title="Desativar">
+                        <i class="bi bi-pause-circle"></i> Pausar
+                    </button>
+                `;
+            } else {
+                botoesAcao = `
+                    <button class="btn btn-sm btn-outline-success" onclick="reativarGuarda(${g.id})" title="Reativar">
+                        <i class="bi bi-play-circle"></i> Reativar
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger ms-1" onclick="arquivarGuarda(${g.id})" title="Excluir Permanentemente">
+                        <i class="bi bi-trash"></i> Excluir
+                    </button>
+                `;
+            }
 
             tbody.innerHTML += `
                 <tr>
                     <td>${g.nome}</td>
                     <td>${g.email}</td>
                     <td>${statusBadge}</td>
-                    <td>${btnDesativar}</td>
+                    <td>${botoesAcao}</td>
                 </tr>
             `;
         });
@@ -341,4 +355,51 @@ function exportarRelatorioCSV() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+// Função para Reativar Guarda
+async function reativarGuarda(id) {
+    if (!confirm('Deseja restaurar o acesso deste guarda ao sistema?')) return;
+
+    try {
+        const res = await fetch(`${API_URL}/admin/guardas/${id}/reativar`, { 
+            method: 'PUT',
+            headers: getAuthHeaders()
+        });
+
+        if (res.ok) {
+            carregarGuardas(); // Recarrega tabela
+            carregarDashboard(); // Atualiza contador
+        } else {
+            const data = await res.json();
+            alert(data.message || 'Erro ao reativar guarda.');
+        }
+    } catch (err) {
+        alert('Erro de conexão com o servidor.');
+    }
+}
+
+// Função para Excluir/Arquivar Guarda
+async function arquivarGuarda(id) {
+    if (!confirm('ATENÇÃO: Tem certeza que deseja excluir este guarda permanentemente do banco de dados?')) return;
+
+    try {
+        const res = await fetch(`${API_URL}/admin/guardas/${id}/excluir`, { 
+            method: 'DELETE',
+            headers: getAuthHeaders()
+        });
+        
+        const data = await res.json();
+
+        if (res.ok) {
+            alert('Guarda excluído com sucesso.');
+            carregarGuardas(); 
+            carregarDashboard(); 
+        } else {
+            // Aqui vai aparecer o aviso amigável se ele tiver histórico!
+            alert('Aviso: ' + data.message);
+        }
+    } catch (err) {
+        alert('Erro de conexão com o servidor.');
+    }
 }
