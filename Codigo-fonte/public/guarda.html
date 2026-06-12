@@ -63,6 +63,17 @@
                                 <textarea name="descricao" class="form-control" rows="3" required></textarea>
                             </div>
                             <div class="row">
+                                <div class="mb-3">
+                                <label class="form-label">Categoria do Item</label>
+                                <select name="categoria" class="form-select" required>
+                                    <option value="" disabled selected>Selecione uma categoria...</option>
+                                    <option value="Eletrônicos">Eletrônicos</option>
+                                    <option value="Documentos">Documentos</option>
+                                    <option value="Acessórios">Roupas/Acessórios</option>
+                                    <option value="Vestuário">Vestuário</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>  
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Data do Encontro</label>
                                     <input type="date" name="data_ocorrencia" class="form-control" required>

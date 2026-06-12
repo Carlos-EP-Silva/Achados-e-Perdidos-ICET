@@ -33,26 +33,26 @@ exports.listarItens = async (req, res) => {
 
 // 2. Função para CADASTRAR item
 exports.criarItem = async (req, res) => {
-    // Agora exigimos todos os campos que marcamos como NOT NULL no banco
-    const { titulo, descricao, local_ocorrencia, data_ocorrencia, usuario_id } = req.body;
+    // 1. Extraindo a categoria que o front-end enviou agora
+    const { titulo, descricao, local_ocorrencia, data_ocorrencia, usuario_id, categoria } = req.body;
     const foto = req.file ? req.file.filename : null;
 
-    // Validação de Qualidade: Bloqueia requisições incompletas na origem
-    if (!titulo || !descricao || !local_ocorrencia || !data_ocorrencia || !usuario_id) {
-        return res.status(400).json({ message: 'Todos os campos obrigatórios devem ser preenchidos.' });
+    // 2. Validando se a categoria foi preenchida
+    if (!titulo || !descricao || !local_ocorrencia || !data_ocorrencia || !usuario_id || !categoria) {
+        return res.status(400).json({ message: 'Todos os campos obrigatórios (incluindo categoria) devem ser preenchidos.' });
     }
 
-    // Removido o campo 'tipo' (achado) pois a tabela itens agora só trata achados por padrão
+    // 3. Inserindo a categoria na instrução SQL
     const queryInsert = `
-        INSERT INTO itens (titulo, descricao, foto, local_ocorrencia, data_ocorrencia, usuario_id) 
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO itens (titulo, descricao, foto, local_ocorrencia, data_ocorrencia, usuario_id, categoria) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
     try {
-        const [result] = await db.query(queryInsert, [titulo, descricao, foto, local_ocorrencia, data_ocorrencia, usuario_id]);
+        // Passando a categoria como o último parâmetro
+        const [result] = await db.query(queryInsert, [titulo, descricao, foto, local_ocorrencia, data_ocorrencia, usuario_id, categoria]);
         const novoItemId = result.insertId;
 
-        // Diferencial de Qualidade: Gerando rastro de auditoria
         const queryLog = `INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)`;
         await db.query(queryLog, [usuario_id, 'CADASTRAR_ITEM', 'itens', `Item '${titulo}' cadastrado com sucesso. ID: ${novoItemId}`]);
 
