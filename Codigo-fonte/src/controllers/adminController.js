@@ -49,7 +49,6 @@ module.exports = {
   async createGuard(req, res) {
     const { nome, email, senha, telefone, documento } = req.body;
     
-    // Simplificado para alinhar com o que o frontend envia de forma básica, ou garanta que o form envie todos
     if (!nome || !email || !senha) {
         return res.status(400).json({ message: 'Nome, email e senha são obrigatórios.' });
     }
@@ -58,14 +57,20 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(senha, salt);
 
-        // Ajustado para permitir campos nulos caso telefone/documento não venham do front temporariamente
+        // CORREÇÃO: Se não vier telefone ou documento, enviamos "Não informado" em vez de NULL
+        const telFinal = telefone || 'Não informado';
+        const docFinal = documento || 'Não informado';
+
         const [result] = await db.query(
             "INSERT INTO usuarios (nome, email, senha, telefone, documento, tipo, ativo, categoria) VALUES (?, ?, ?, ?, ?, 'guarda', 1, 'Terceirizado')", 
-            [nome, email, hash, telefone || null, documento || null]
+            [nome, email, hash, telFinal, docFinal]
         );
 
+        // Pega o ID do admin de forma segura (dependendo de como o middleware chama: user ou usuario)
+        const adminId = req.user?.id || req.usuario?.id || 1;
+
         await db.query(`INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)`, 
-            [req.user.id, 'CRIAR_GUARDA', 'usuarios', `Admin criou o guarda ${nome}`]);
+            [adminId, 'CRIAR_GUARDA', 'usuarios', `Admin criou o guarda ${nome}`]);
 
         res.status(201).json({ message: 'Guarda criado com sucesso.' });
     } catch (err) {
