@@ -6,9 +6,10 @@ module.exports = {
   async getDashboardData(req, res) {
     try {
       const [total] = await db.query("SELECT COUNT(*) AS c FROM itens");
+     // A linha NOVA e correta:
       const [reivindicados] = await db.query("SELECT COUNT(*) AS c FROM itens WHERE status = 'reivindicado'");
-      const [pendentes] = await db.query("SELECT COUNT(*) AS c FROM reivindicacoes WHERE status = 'pendente'");
-      const [guardas] = await db.query("SELECT COUNT(*) AS c FROM usuarios WHERE tipo = 'guarda' AND ativo = 1");
+      const [devolvidos] = await db.query("SELECT COUNT(*) AS c FROM itens WHERE status = 'devolvido'");
+      const [pendentes] = await db.query("SELECT COUNT(*) AS c FROM reivindicacoes WHERE status = 'pendente'"); const [guardas] = await db.query("SELECT COUNT(*) AS c FROM usuarios WHERE tipo = 'guarda' AND ativo = 1");
       const [recentes] = await db.query("SELECT id, titulo AS item, local_ocorrencia AS local, status FROM itens ORDER BY data_criacao DESC LIMIT 5");   
       
       // CORREÇÃO: Alterado r.data_solicitacao para r.data_criacao
@@ -24,6 +25,7 @@ module.exports = {
       res.json({
           totalItens: total[0].c,
           itensReivindicados: reivindicados[0].c,
+          itensDevolvidos: devolvidos[0].c, // <--- ADICIONAMOS ISTO AQUI
           reivindPendentes: pendentes[0].c,
           guardasAtivos: guardas[0].c,
           itensRecentes: recentes,

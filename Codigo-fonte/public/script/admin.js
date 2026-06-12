@@ -65,11 +65,11 @@ async function carregarDashboard() {
         const dados = await resp.json();
 
         // Atualiza os contadores
+      // Atualiza os contadores
         document.getElementById("total-itens").textContent = dados.totalItens || 0;
-        document.getElementById("itens-reivindicados").textContent = dados.itensReivindicados || 0;
+        document.getElementById("itens-reivindicados").textContent = dados.itensDevolvidos || 0; // <--- AGORA ELE MOSTRA OS DEVOLVIDOS NA CAIXA VERDE!
         document.getElementById("reivind-pendentes").textContent = dados.reivindPendentes || 0;
         document.getElementById("guardas-ativos").textContent = dados.guardasAtivos || 0;
-
         // Tabela: Itens Recentes
         preencherTabelaItens(dados.itensRecentes);
 
@@ -97,11 +97,16 @@ async function carregarDashboard() {
         data: {
             labels: ['Disponíveis/Pendentes', 'Em Processo', 'Devolvidos'],
             datasets: [{
-                data: [dados.totalItens - reivindicados, dados.reivindPendentes, devolvidos],
+                // A ordem correta: Disponíveis, Em Processo (Reivindicados), Devolvidos
+                data: [
+                    dados.totalItens - dados.itensDevolvidos - dados.itensReivindicados, 
+                    dados.itensReivindicados + dados.reivindPendentes, 
+                    dados.itensDevolvidos
+                ],
                 backgroundColor: [
-                    '#008542', // Verde UFAM
-                    '#ffc107', // Amarelo
-                    '#6c757d'  // Cinza
+                    '#008542', // Verde UFAM (Disponíveis)
+                    '#ffc107', // Amarelo (Em Processo)
+                    '#6c757d'  // Cinza (Devolvidos)
                 ],
                 borderWidth: 0
             }]
