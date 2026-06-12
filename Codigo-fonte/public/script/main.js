@@ -205,9 +205,6 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-
-let categoriaSelecionada = '';
-
 function filtrarPorTag(tag) {
     categoriaSelecionada = tag;
     
