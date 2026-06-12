@@ -71,11 +71,11 @@ exports.baixaPresencial = async (req, res) => {
 // 3. Listar Itens Disponíveis (Para o guarda selecionar na baixa presencial)
 exports.listarItensAcervo = async (req, res) => {
     try {
-        // CORREÇÃO: Trocado data_registro por data_criacao
-        const [rows] = await db.query('SELECT * FROM itens WHERE status IN ("pendente", "reivindicado") ORDER BY data_criacao DESC');
+        // CORREÇÃO: Usando aspas simples para os status para o MySQL não confundir com colunas
+        const [rows] = await db.query("SELECT * FROM itens WHERE status IN ('pendente', 'reivindicado') ORDER BY data_criacao DESC");
         res.json(rows);
     } catch (err) {
-        console.error('Erro em listarItensAcervo:', err); // Agora o Render vai avisar se der erro
+        console.error('Erro em listarItensAcervo:', err);
         res.status(500).json({ error: err.message });
     }
 };
