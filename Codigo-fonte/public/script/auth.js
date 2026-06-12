@@ -113,6 +113,9 @@ function logout() {
 // ===================================================================
 // LÓGICA DE RECUPERAÇÃO DE SENHA (PÁGINA RECUPERAR.HTML)
 // ===================================================================
+// ===================================================================
+// LÓGICA DE RECUPERAÇÃO DE SENHA (SIMULAÇÃO PARA AULA)
+// ===================================================================
 const formRecuperar = document.getElementById('formRecuperar');
 
 if (formRecuperar) {
@@ -123,7 +126,7 @@ if (formRecuperar) {
         const btnSubmit = formRecuperar.querySelector('button[type="submit"]');
         const textoOriginal = btnSubmit.innerText;
 
-        btnSubmit.innerText = 'Enviando...';
+        btnSubmit.innerText = 'Processando...';
         btnSubmit.disabled = true;
 
         try {
@@ -136,8 +139,9 @@ if (formRecuperar) {
             const data = await res.json();
 
             if (res.ok) {
-                alert(data.message);
-                window.location.href = 'login.html';
+                alert("Simulação para apresentação: O e-mail foi 'enviado'. Você será redirecionado para a tela de criação da nova senha!");
+                // O GRANDE TRUQUE: Envia o usuário direto para a tela de criar senha com o Token gerado
+                window.location.href = `redefinir.html?token=${data.simulatedToken}`;
             } else {
                 alert('Erro: ' + (data.message || 'Falha ao processar solicitação.'));
             }

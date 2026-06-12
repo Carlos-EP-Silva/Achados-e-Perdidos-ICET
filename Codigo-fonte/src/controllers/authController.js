@@ -217,8 +217,8 @@ module.exports = {
 
             const usuario = users[0];
 
-            // Gera um token aleatório de 32 caracteres hexadecimais
-            const token = crypto.randomBytes(20).toString('hex');
+            // Gera um token aleatório e rápido para simulação
+            const token = crypto.randomBytes(10).toString('hex');
             
             // Define a expiração para daqui a 15 minutos
             const expiracao = new Date(Date.now() + 15 * 60 * 1000); 
@@ -229,38 +229,19 @@ module.exports = {
                 [token, expiracao, usuario.id]
             );
 
-            // Link que o usuário vai clicar (ajuste o domínio quando subir para a nuvem)
-            const linkRedefinir = `http://localhost:3000/redefinir.html?token=${token}`;
-
-            // Conteúdo do e-mail em HTML
-            const mailOptions = {
-                from: `"Achados e Perdidos" <${process.env.EMAIL_USER}>`,
-                to: email,
-                subject: 'Recuperação de Senha - Achados & Perdidos',
-                html: `
-                    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                        <h2>Olá, ${usuario.nome.split(' ')[0]}!</h2>
-                        <p>Você solicitou a redefinição de senha para o seu acesso ao sistema de Achados & Perdidos.</p>
-                        <p>Clique no botão abaixo para criar uma nova senha. Este link é válido por 15 minutos.</p>
-                        <a href="${linkRedefinir}" style="display: inline-block; padding: 12px 20px; background-color: #008542; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Redefinir Minha Senha</a>
-                        <br><br>
-                        <p style="color: #666; font-size: 12px;">Se você não solicitou esta alteração, ignore este e-mail.</p>
-                    </div>
-                `
-            };
-
-            // Envia o e-mail de verdade
-            await transporter.sendMail(mailOptions);
-
             // Log de auditoria
             await db.query('INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)', 
-                [usuario.id, 'SOLICITOU_RECUPERACAO', 'usuarios', `Link de recuperação enviado para ${email}`]);
+                [usuario.id, 'SOLICITOU_RECUPERACAO', 'usuarios', `Simulação de recuperação ativada para ${email}`]);
 
-            res.json({ message: 'Link de recuperação enviado com sucesso para o seu e-mail!' });
+            // DEVOLVEMOS O TOKEN PARA O FRONTEND PARA SIMULAR O CLIQUE NO E-MAIL
+            res.json({ 
+                message: 'Um link de recuperação fictício foi gerado! Redirecionando para simulação...',
+                simulatedToken: token 
+            });
 
         } catch (err) {
-            console.error('Erro no envio do e-mail:', err);
-            res.status(500).json({ message: 'Erro ao tentar enviar o e-mail de recuperação.' });
+            console.error('Erro na recuperação:', err);
+            res.status(500).json({ message: 'Erro ao tentar iniciar a recuperação de senha.' });
         }
     },
 
