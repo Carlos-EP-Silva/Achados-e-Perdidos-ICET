@@ -48,28 +48,27 @@ async function carregarItens() {
 
 function renderizarItens(lista) {
     const container = document.getElementById('lista-itens');
-    container.innerHTML = '';
+    // Só limpa se for a página 1, senão ele apaga os itens anteriores no "Carregar Mais"
+    if (paginaAtual === 1) container.innerHTML = '';
 
-    if (lista.length === 0) {
+    if (lista.length === 0 && paginaAtual === 1) {
         container.innerHTML = '<p class="text-center text-muted">Nenhum item encontrado no momento.</p>';
         return;
     }
 
     lista.forEach(item => {
-        // Só mostra itens Pendentes (não mostra devolvidos)
         if (item.status !== 'pendente') return;
 
-        // Se não tiver foto, usa uma padrão
         const fotoUrl = item.foto ? `${API_URL}/uploads/${item.foto}` : 'https://via.placeholder.com/300x200?text=Sem+Foto';
-        
-        // Formata data
         const dataFormatada = new Date(item.data_ocorrencia).toLocaleDateString('pt-BR');
+        const categoriaItem = item.categoria || 'Outros'; // Prevenção caso o item antigo não tenha categoria
 
+        // Adicionamos a classe 'card-filtro' e o 'data-categoria'
         const card = `
-            <div class="col-md-4 col-sm-6">
-                <div class="card card-item h-100">
+            <div class="col-md-4 col-sm-6 card-filtro" data-categoria="${categoriaItem}">
+                <div class="card card-item h-100 position-relative">
                     <span class="badge bg-success status-badge">Encontrado</span>
-                    <img src="${fotoUrl}" class="card-img-top" alt="${item.titulo}">
+                    <span class="badge bg-dark position-absolute top-0 start-0 m-2 z-1">${categoriaItem}</span> <img src="${fotoUrl}" class="card-img-top" alt="${item.titulo}">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">${item.titulo}</h5>
                         <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill"></i> ${item.local_ocorrencia}</p>
@@ -90,6 +89,63 @@ function renderizarItens(lista) {
         container.innerHTML += card;
     });
 }
+
+let categoriaSelecionada = '';
+
+function filtrarPorTag(tag) {
+    categoriaSelecionada = tag;
+    // Opcional: Aqui você pode colocar um código para mudar a cor do botão clicado
+    filtrarItens(); 
+}
+
+function filtrarItens() {
+    const termoBusca = document.getElementById('buscaInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.card-filtro'); // Busca todos os cards renderizados
+    let itensVisiveis = 0;
+    
+    cards.forEach(col => {
+        const titulo = col.querySelector('.card-title').innerText.toLowerCase();
+        const descricao = col.querySelector('.card-text').innerText.toLowerCase();
+        const categoriaCard = col.getAttribute('data-categoria'); // Lê a categoria oculta no HTML
+        
+        // Regra 1: Passa no texto se o termo existir no titulo ou descricao
+        const passaTexto = titulo.includes(termoBusca) || descricao.includes(termoBusca);
+        
+        // Regra 2: Passa na categoria se não tiver nenhuma selecionada ('') ou se for igual
+        const passaCategoria = (categoriaSelecionada === '') || (categoriaCard === categoriaSelecionada);
+        
+        // O card só aparece se passar nas duas regras!
+        if (passaTexto && passaCategoria) {
+            col.style.display = 'block';
+            itensVisiveis++;
+        } else {
+            col.style.display = 'none';
+        }
+    });
+
+    // Lógica do Empty State (Estado Vazio) que você já tinha, mantida intacta!
+    let container = document.getElementById('lista-itens');
+    let msgVazia = document.getElementById('empty-state-msg');
+
+    if (itensVisiveis === 0) {
+        if (!msgVazia) {
+            msgVazia = document.createElement('div');
+            msgVazia.id = 'empty-state-msg';
+            msgVazia.className = 'col-12 text-center py-5';
+            msgVazia.innerHTML = `
+                <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
+                <h4 class="text-muted mt-3">Nenhum item encontrado</h4>
+                <p class="text-muted small">Tente procurar por palavras mais simples ou navegue pelas categorias.</p>
+            `;
+            container.appendChild(msgVazia);
+        } else {
+            msgVazia.style.display = 'block';
+        }
+    } else if (msgVazia) {
+        msgVazia.style.display = 'none';
+    }
+}
+
 
 function tentarReivindicar(idItem) {
     if (!usuarioLogado) {
