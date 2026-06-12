@@ -205,17 +205,36 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-function filtrarItens(termoForcado = null) {
-    const termo = (termoForcado !== null ? termoForcado : document.getElementById('buscaInput').value).toLowerCase();
-    const cards = document.querySelectorAll('.col-md-4');
+
+let categoriaSelecionada = '';
+
+function filtrarPorTag(tag) {
+    categoriaSelecionada = tag;
+    
+    // CORREÇÃO 1: Limpa a barra de pesquisa para ela não interferir no botão!
+    document.getElementById('buscaInput').value = ''; 
+    
+    filtrarItens(); 
+}
+function filtrarItens() {
+    // Pega o texto, converte para minúsculo e tira os espaços vazios das pontas (trim)
+    const termoBusca = document.getElementById('buscaInput').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.card-filtro'); 
     let itensVisiveis = 0;
     
     cards.forEach(col => {
         const titulo = col.querySelector('.card-title').innerText.toLowerCase();
         const descricao = col.querySelector('.card-text').innerText.toLowerCase();
+        const categoriaCard = col.getAttribute('data-categoria'); 
         
-        // Procura tanto no título quanto na descrição
-        if (titulo.includes(termo) || descricao.includes(termo)) {
+        // CORREÇÃO 2: Só bloqueia o texto se a barra NÃO estiver vazia
+        const passaTexto = (termoBusca === '') || titulo.includes(termoBusca) || descricao.includes(termoBusca);
+        
+        // Regra da Categoria (Se for '' mostra todos)
+        const passaCategoria = (categoriaSelecionada === '') || (categoriaCard === categoriaSelecionada);
+        
+        // O card só aparece se passar no texto E na categoria
+        if (passaTexto && passaCategoria) {
             col.style.display = 'block';
             itensVisiveis++;
         } else {
@@ -223,7 +242,7 @@ function filtrarItens(termoForcado = null) {
         }
     });
 
-    // Lógica do Empty State (Estado Vazio)
+    // --- Lógica do Estado Vazio (Mantida intacta) ---
     let container = document.getElementById('lista-itens');
     let msgVazia = document.getElementById('empty-state-msg');
 
@@ -244,11 +263,6 @@ function filtrarItens(termoForcado = null) {
     } else if (msgVazia) {
         msgVazia.style.display = 'none';
     }
-}
-
-function filtrarPorTag(tag) {
-    document.getElementById('buscaInput').value = tag;
-    filtrarItens(tag);
 }
 
 // Função para disparar a notificação na tela sem usar alert()
