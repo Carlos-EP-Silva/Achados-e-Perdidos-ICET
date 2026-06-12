@@ -3,8 +3,9 @@ const db = require('../config/db');
 
 // 1. Listar todas as reivindicações pendentes
 exports.listarPendencias = async (req, res) => {
+    // CORREÇÃO: Trocado r.data_solicitacao por r.data_criacao
     const query = `
-        SELECT r.id, r.data_solicitacao, u.nome as nome_usuario, i.titulo as nome_item, i.foto, r.item_id
+        SELECT r.id, r.data_criacao as data_solicitacao, u.nome as nome_usuario, i.titulo as nome_item, i.foto, r.item_id
         FROM reivindicacoes r
         JOIN usuarios u ON r.usuario_id = u.id
         JOIN itens i ON r.item_id = i.id
@@ -15,6 +16,7 @@ exports.listarPendencias = async (req, res) => {
         const [results] = await db.query(query);
         res.json(results);
     } catch (err) {
+        console.error('Erro em listarPendencias:', err); // Agora o Render vai avisar se der erro
         res.status(500).json({ error: err.message });
     }
 };
@@ -69,9 +71,11 @@ exports.baixaPresencial = async (req, res) => {
 // 3. Listar Itens Disponíveis (Para o guarda selecionar na baixa presencial)
 exports.listarItensAcervo = async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM itens WHERE status IN ("pendente", "reivindicado") ORDER BY data_registro DESC');
+        // CORREÇÃO: Trocado data_registro por data_criacao
+        const [rows] = await db.query('SELECT * FROM itens WHERE status IN ("pendente", "reivindicado") ORDER BY data_criacao DESC');
         res.json(rows);
     } catch (err) {
+        console.error('Erro em listarItensAcervo:', err); // Agora o Render vai avisar se der erro
         res.status(500).json({ error: err.message });
     }
 };
