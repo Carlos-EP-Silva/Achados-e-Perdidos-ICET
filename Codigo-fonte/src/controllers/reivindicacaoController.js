@@ -30,7 +30,21 @@ exports.reivindicarItem = async (req, res) => {
         await connection.commit();
         connection.release();
 
+        // 4. Busca o nome do item para ficar bonito no log
+        const [itemInfo] = await db.query('SELECT titulo FROM itens WHERE id = ?', [item_id]);
+        const tituloItem = itemInfo[0]?.titulo || 'Item';
+
+        // 5. SIMULAÇÃO DE ENVIO DE E-MAIL PARA A GUARITA (Contornando bloqueio do Render)
+        console.log('====================================================');
+        console.log(`[E-MAIL SIMULADO] Destinatário: guarda@ufam.edu.br`);
+        console.log(`[E-MAIL SIMULADO] Assunto: 🚨 Nova Reivindicação`);
+        console.log(`[E-MAIL SIMULADO] Alerta: O aluno reivindicou o item: "${tituloItem}".`);
+        console.log(`[E-MAIL SIMULADO] Ação: Acesse o painel da Guarita para verificar.`);
+        console.log('====================================================');
+
+        // 6. Devolve a resposta final para destravar a tela do usuário
         res.json({ message: 'Reivindicação enviada! Aguarde a aprovação da administração.' });
+
     } catch (err) {
         // Se qualquer query falhar, desfaz tudo para manter a integridade (Rollback)
         if (connection) {
@@ -40,30 +54,4 @@ exports.reivindicarItem = async (req, res) => {
         console.error('Erro na reivindicação:', err);
         res.status(500).json({ message: 'Erro interno ao processar a reivindicação.' });
     }
-
-    try {
-    // Busca o nome do item para ficar bonito no e-mail
-    const [itemInfo] = await db.query('SELECT titulo FROM itens WHERE id = ?', [item_id]);
-    const tituloItem = itemInfo[0]?.titulo || 'Item';
-
-    // Dispara o e-mail de notificação para a guarita (ou admin)
-    await transporter.sendMail({
-        from: `"Achados e Perdidos ICET" <${process.env.EMAIL_USER}>`,
-        to: 'guarda@ufam.edu.br', // Aqui você pode colocar o e-mail real da guarita/administração
-        subject: '🚨 Nova Reivindicação de Item no Sistema',
-        html: `
-            <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
-                <h2 style="color: #008542;">Nova Reivindicação Recebida</h2>
-                <p>Um aluno acaba de reivindicar o item: <strong>${tituloItem}</strong>.</p>
-                <p>Por favor, aceda ao painel do sistema para verificar a solicitação e aguardar o comparecimento do aluno na guarita.</p>
-                <br>
-                <p>Sistema de Achados e Perdidos - ICET/UFAM</p>
-            </div>
-        `
-    });
-    console.log('E-mail de reivindicação enviado com sucesso.');
-} catch (emailErr) {
-    // Se o e-mail falhar, não impede a reivindicação de ser salva
-    console.error('Erro ao enviar e-mail de notificação:', emailErr);
-}
 };
