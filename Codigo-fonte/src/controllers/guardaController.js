@@ -24,24 +24,23 @@ exports.listarPendencias = async (req, res) => {
 exports.recusarReivindicacao = async (req, res) => {
     const { reivindicacao_id, item_id, motivo } = req.body;
     try {
-        // A. Marca reivindicação como negada
-        await db.query('UPDATE reivindicacoes SET status = "negada" WHERE id = ?', [reivindicacao_id]);
+        // CORREÇÃO: Aspas simples em 'negada'
+        await db.query("UPDATE reivindicacoes SET status = 'negada' WHERE id = ?", [reivindicacao_id]);
         
-        // B. Item volta a ficar 'pendente' (disponível para outros)
-        await db.query('UPDATE itens SET status = "pendente" WHERE id = ?', [item_id]);
+        // CORREÇÃO: Aspas simples em 'pendente'
+        await db.query("UPDATE itens SET status = 'pendente' WHERE id = ?", [item_id]);
 
         res.json({ message: 'Solicitação recusada. O item está disponível novamente.' });
     } catch (err) {
+        console.error('Erro ao recusar reivindicação:', err);
         res.status(500).json({ error: err.message });
     }
 };
 
 // 2. Baixa Presencial (Sem login do usuário)
 exports.baixaPresencial = async (req, res) => {
-    // Agora recebemos também o contato_recebedor
     const { item_id, guarda_id, nome_recebedor, documento_recebedor, contato_recebedor } = req.body;
 
-    // Validação
     if (!documento_recebedor || !nome_recebedor || !contato_recebedor) {
         return res.status(400).json({ message: 'Preencha Nome, Documento e Contato!' });
     }
@@ -52,18 +51,18 @@ exports.baixaPresencial = async (req, res) => {
             return res.status(400).json({ message: 'Item não encontrado ou já devolvido!' });
         }
 
-        // Atualizamos o INSERT para incluir o contato
         await db.query(
             'INSERT INTO devolucoes (item_id, guarda_id, documento_recebedor, nome_recebedor, contato_recebedor) VALUES (?, ?, ?, ?, ?)', 
             [item_id, guarda_id, documento_recebedor, nome_recebedor, contato_recebedor]
         );
 
-        await db.query('UPDATE itens SET status = "devolvido" WHERE id = ?', [item_id]);
-        await db.query('UPDATE reivindicacoes SET status = "negada" WHERE item_id = ? AND status = "pendente"', [item_id]);
+        // CORREÇÃO: Aspas simples em 'devolvido', 'negada' e 'pendente'
+        await db.query("UPDATE itens SET status = 'devolvido' WHERE id = ?", [item_id]);
+        await db.query("UPDATE reivindicacoes SET status = 'negada' WHERE item_id = ? AND status = 'pendente'", [item_id]);
 
         res.json({ message: 'Baixa presencial registrada com sucesso!' });
     } catch (err) {
-        console.error(err);
+        console.error('Erro na baixa presencial:', err);
         res.status(500).json({ error: 'Erro no banco de dados: ' + err.message });
     }
 };
@@ -81,7 +80,6 @@ exports.listarItensAcervo = async (req, res) => {
 };
 // 4. Confirmar Devolução (Dar Baixa)
 exports.realizarDevolucao = async (req, res) => {
-    // CORREÇÃO: A tabela devolucoes agora exige nome e contato também
     const { reivindicacao_id, item_id, guarda_id, documento_recebedor, nome_recebedor, contato_recebedor } = req.body;
 
     if (!documento_recebedor || !nome_recebedor || !contato_recebedor) {
@@ -91,36 +89,35 @@ exports.realizarDevolucao = async (req, res) => {
     let connection;
     try {
         connection = await db.getConnection();
-        await connection.beginTransaction(); // Inicia a transação segura
+        await connection.beginTransaction(); 
 
-        // A. Registra na tabela de devoluções
         await connection.query(
             'INSERT INTO devolucoes (item_id, guarda_id, documento_recebedor, nome_recebedor, contato_recebedor) VALUES (?, ?, ?, ?, ?)', 
             [item_id, guarda_id, documento_recebedor, nome_recebedor, contato_recebedor]
         );
 
-        // B. Atualiza status da reivindicação
+        // CORREÇÃO: Aspas simples em 'aprovada'
         await connection.query(
-            'UPDATE reivindicacoes SET status = "aprovada", guarda_id = ? WHERE id = ?', 
+            "UPDATE reivindicacoes SET status = 'aprovada', guarda_id = ? WHERE id = ?", 
             [guarda_id, reivindicacao_id]
         );
 
-        // C. Atualiza status do item
-        await connection.query('UPDATE itens SET status = "devolvido" WHERE id = ?', [item_id]);
+        // CORREÇÃO: Aspas simples em 'devolvido'
+        await connection.query("UPDATE itens SET status = 'devolvido' WHERE id = ?", [item_id]);
 
-        // D. Audita a ação
-        await connection.query(`INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)`, 
+        await connection.query("INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)", 
             [guarda_id, 'APROVAR_REIVINDICACAO', 'devolucoes', `Guarda aprovou devolução do item ID: ${item_id}`]);
 
-        await connection.commit(); // Confirma tudo
+        await connection.commit(); 
         connection.release();
 
         res.json({ message: 'Devolução registrada com sucesso!' });
     } catch (err) {
         if (connection) {
-            await connection.rollback(); // Desfaz tudo em caso de erro
+            await connection.rollback(); 
             connection.release();
         }
+        console.error('Erro na realizacao da devolucao:', err);
         res.status(500).json({ message: 'Erro crítico ao registrar devolução.' });
     }
 };
