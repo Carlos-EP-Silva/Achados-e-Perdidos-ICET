@@ -10,6 +10,9 @@ router.get("/admin/guardas", middleware.isAdmin, controller.listGuards);
 router.post("/admin/guardas", middleware.isAdmin, controller.createGuard);
 router.delete("/admin/guardas/:id", middleware.isAdmin, controller.deleteGuard);
 router.get("/admin/relatorio", middleware.isAdmin, controller.gerarRelatorio);
-router.put('/guardas/:id/reativar', middleware.isAdmin, controller.reativarGuarda);
-router.delete('/guardas/:id/excluir', middleware.isAdmin, controller.excluirGuarda);
+
+// CORREÇÃO: Adicionado o /admin no início destas duas rotas
+router.put('/admin/guardas/:id/reativar', middleware.isAdmin, controller.reativarGuarda);
+router.delete('/admin/guardas/:id/excluir', middleware.isAdmin, controller.excluirGuarda);
+
 module.exports = router;
