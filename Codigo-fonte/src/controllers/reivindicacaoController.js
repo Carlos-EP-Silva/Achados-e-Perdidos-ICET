@@ -14,13 +14,13 @@ exports.reivindicarItem = async (req, res) => {
         connection = await db.getConnection();
         await connection.beginTransaction();
 
-        // 1. Cria a reivindicação
-        const queryInsert = 'INSERT INTO reivindicacoes (item_id, usuario_id, status) VALUES (?, ?, "pendente")';
-        await connection.query(queryInsert, [item_id, usuario_id]);
+        // 1. Cria a reivindicação (Passando 'pendente' como parâmetro seguro)
+        const queryInsert = 'INSERT INTO reivindicacoes (item_id, usuario_id, status) VALUES (?, ?, ?)';
+        await connection.query(queryInsert, [item_id, usuario_id, 'pendente']);
 
-        // 2. Atualiza o status do item
-        const queryUpdate = 'UPDATE itens SET status = "reivindicado" WHERE id = ?';
-        await connection.query(queryUpdate, [item_id]);
+        // 2. Atualiza o status do item (Passando 'reivindicado' como parâmetro seguro)
+        const queryUpdate = 'UPDATE itens SET status = ? WHERE id = ?';
+        await connection.query(queryUpdate, ['reivindicado', item_id]);
 
         // 3. Log de auditoria
         const queryLog = `INSERT INTO logs_auditoria (usuario_id, acao, tabela_afetada, descricao) VALUES (?, ?, ?, ?)`;
