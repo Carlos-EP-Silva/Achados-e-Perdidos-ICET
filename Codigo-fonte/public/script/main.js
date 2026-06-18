@@ -59,7 +59,7 @@ function renderizarItens(lista) {
     lista.forEach(item => {
         if (item.status !== 'pendente') return;
 
-        const fotoUrl = p.foto ? p.foto : 'https://via.placeholder.com/50?text=Foto';
+        const fotoUrl = item.foto ? item.foto : 'https://via.placeholder.com/50?text=Foto';
         const dataFormatada = new Date(item.data_ocorrencia).toLocaleDateString('pt-BR');
         const categoriaItem = item.categoria || 'Outros'; // Prevenção caso o item antigo não tenha categoria
 
