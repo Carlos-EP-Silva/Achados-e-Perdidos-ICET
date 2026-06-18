@@ -140,6 +140,43 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalDevolucao" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Aprovar ReivindicaÃ§Ã£o</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Confirme os dados do recebedor para registrar a devoluÃ§Ã£o do item.</p>
+                    <input type="hidden" id="hiddenReivId">
+                    <input type="hidden" id="hiddenItemId">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nome do Recebedor</label>
+                        <input type="text" id="nomeRecebedor" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Documento do Recebedor</label>
+                        <input type="text" id="docRecebedor" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Contato do Recebedor</label>
+                        <input type="text" id="contatoRecebedor" class="form-control" placeholder="(92) 9xxxx-xxxx ou email@..." required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="confirmarBaixa()">
+                        <i class="bi bi-check-lg"></i> Confirmar DevoluÃ§Ã£o
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalBaixaPresencial" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

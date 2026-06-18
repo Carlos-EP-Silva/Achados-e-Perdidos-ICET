@@ -142,16 +142,20 @@ window.carregarPendencias = async function() {
 window.abrirModal = function(reivindicacaoId, itemId) {
     document.getElementById('hiddenReivId').value = reivindicacaoId;
     document.getElementById('hiddenItemId').value = itemId;
+    document.getElementById('nomeRecebedor').value = ''; 
     document.getElementById('docRecebedor').value = ''; 
+    document.getElementById('contatoRecebedor').value = ''; 
     modalDevolucao.show();
 }
 
 window.confirmarBaixa = async function() {
+    const nome = document.getElementById('nomeRecebedor').value;
     const doc = document.getElementById('docRecebedor').value;
+    const contato = document.getElementById('contatoRecebedor').value;
     const rId = document.getElementById('hiddenReivId').value;
     const iId = document.getElementById('hiddenItemId').value;
 
-    if (!doc) return alert('Informe o documento.');
+    if (!nome || !doc || !contato) return alert('Informe nome, documento e contato.');
 
     try {
         const res = await fetch(`${API_URL}/guarda/devolver`, {
@@ -164,7 +168,9 @@ window.confirmarBaixa = async function() {
                 reivindicacao_id: rId,
                 item_id: iId,
                 guarda_id: usuarioLogado.id,
-                documento_recebedor: doc
+                nome_recebedor: nome,
+                documento_recebedor: doc,
+                contato_recebedor: contato
             })
         });
 
