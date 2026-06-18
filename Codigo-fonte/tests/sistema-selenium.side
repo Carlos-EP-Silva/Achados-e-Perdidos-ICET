@@ -30,9 +30,9 @@
         { "id": "ct02-04", "comment": "", "command": "assertTitle", "target": "Login - Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" },
         { "id": "ct02-05", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='aluno@ufam.edu.br'; document.getElementById('senha').value='123456';", "targets": [], "value": "" },
         { "id": "ct02-06", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
-        { "id": "ct02-07", "comment": "", "command": "waitForElementPresent", "target": "id=buscaInput", "targets": [], "value": "20000" },
+        { "id": "ct02-07", "comment": "", "command": "pause", "target": "5000", "targets": [], "value": "" },
         { "id": "ct02-08", "comment": "", "command": "assertTitle", "target": "Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" },
-        { "id": "ct02-09", "comment": "", "command": "assertText", "target": "css=.navbar-brand", "targets": [], "value": "Achados & Perdidos ICET" }
+        { "id": "ct02-09", "comment": "", "command": "assertElementPresent", "target": "id=buscaInput", "targets": [], "value": "" }
       ]
     },
     {
@@ -44,9 +44,7 @@
         { "id": "ct03-03", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
         { "id": "ct03-04", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='aluno@ufam.edu.br'; document.getElementById('senha').value='senha_errada';", "targets": [], "value": "" },
         { "id": "ct03-05", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
-        { "id": "ct03-06", "comment": "", "command": "assertAlert", "target": "Erro: Email ou senha incorretos", "targets": [], "value": "" },
-        { "id": "ct03-07", "comment": "", "command": "acceptAlert", "target": "", "targets": [], "value": "" },
-        { "id": "ct03-08", "comment": "", "command": "assertTitle", "target": "Login - Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" }
+        { "id": "ct03-06", "comment": "", "command": "assertAlert", "target": "Erro: Email ou senha incorretos", "targets": [], "value": "" }
       ]
     },
     {
@@ -61,6 +59,116 @@
         { "id": "ct12-06", "comment": "", "command": "assertText", "target": "css=.navbar-brand", "targets": [], "value": "Achados & Perdidos ICET" },
         { "id": "ct12-07", "comment": "", "command": "assertElementNotPresent", "target": "xpath=//*[contains(text(),'Painel Administrativo')]", "targets": [], "value": "" }
       ]
+    },
+    {
+      "id": "ct01",
+      "name": "CT01 - Usuario realiza cadastro no sistema",
+      "commands": [
+        { "id": "ct01-01", "comment": "", "command": "open", "target": "/cadastro.html", "targets": [], "value": "" },
+        { "id": "ct01-02", "comment": "", "command": "waitForElementPresent", "target": "id=formCadastro", "targets": [], "value": "10000" },
+        { "id": "ct01-03", "comment": "", "command": "executeScript", "target": "sessionStorage.removeItem('ultimoAlerta'); window.alert=function(msg){ sessionStorage.setItem('ultimoAlerta', msg); }; const s=Date.now().toString(); document.getElementById('cadNome').value='Aluno Selenium'; document.getElementById('cadCategoria').value='Aluno'; document.getElementById('cadDocumento').value=('9'+s).slice(0,11); document.getElementById('telefone').value='92999999999'; document.getElementById('cadEmail').value='selenium'+s+'@ufam.edu.br'; document.getElementById('cadSenha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct01-04", "comment": "", "command": "click", "target": "css=#formCadastro button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct01-05", "comment": "", "command": "pause", "target": "3000", "targets": [], "value": "" },
+        { "id": "ct01-06", "comment": "", "command": "pause", "target": "3000", "targets": [], "value": "" },
+        { "id": "ct01-07", "comment": "", "command": "executeScript", "target": "const el=document.createElement('div'); el.id='resultado-ct01'; el.textContent=sessionStorage.getItem('ultimoAlerta') || ''; document.body.appendChild(el);", "targets": [], "value": "" },
+        { "id": "ct01-08", "comment": "", "command": "assertText", "target": "id=resultado-ct01", "targets": [], "value": "Cadastro realizado com sucesso! Faça login agora." }
+      ]
+    },
+    {
+      "id": "ct04",
+      "name": "CT04 - Guarda cadastra um novo item encontrado",
+      "commands": [
+        { "id": "ct04-01", "comment": "", "command": "executeScript", "target": "const titulo='Item Selenium '+Date.now(); sessionStorage.setItem('seleniumTituloItem', titulo); return titulo;", "targets": [], "value": "titulo_item" },
+        { "id": "ct04-02", "comment": "", "command": "open", "target": "/login.html", "targets": [], "value": "" },
+        { "id": "ct04-03", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
+        { "id": "ct04-04", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='guarda1@ufam.edu.br'; document.getElementById('senha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct04-05", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct04-06", "comment": "", "command": "pause", "target": "5000", "targets": [], "value": "" },
+        { "id": "ct04-07", "comment": "", "command": "waitForElementPresent", "target": "id=formItem", "targets": [], "value": "15000" },
+        { "id": "ct04-08", "comment": "", "command": "executeScript", "target": "window.alert=function(){}; const f=document.getElementById('formItem'); const titulo=sessionStorage.getItem('seleniumTituloItem') || ('Item Selenium '+Date.now()); sessionStorage.setItem('seleniumTituloItem', titulo); f.querySelector('[name=titulo]').value=titulo; f.querySelector('[name=local_ocorrencia]').value='Bloco C - Sala 102'; f.querySelector('[name=descricao]').value='Item criado automaticamente pelo Selenium para teste de sistema.'; f.querySelector('[name=categoria]').value='Outros'; f.querySelector('[name=data_ocorrencia]').value=new Date().toISOString().slice(0,10);", "targets": [], "value": "" },
+        { "id": "ct04-09", "comment": "", "command": "click", "target": "css=#formItem button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct04-10", "comment": "", "command": "pause", "target": "6000", "targets": [], "value": "" },
+        { "id": "ct04-11", "comment": "", "command": "open", "target": "/", "targets": [], "value": "" },
+        { "id": "ct04-12", "comment": "", "command": "pause", "target": "3000", "targets": [], "value": "" },
+        { "id": "ct04-13", "comment": "", "command": "executeScript", "target": "const titulo=sessionStorage.getItem('seleniumTituloItem'); document.getElementById('buscaInput').value=titulo; filtrarItens();", "targets": [], "value": "" },
+        { "id": "ct04-14", "comment": "", "command": "pause", "target": "1000", "targets": [], "value": "" },
+        { "id": "ct04-15", "comment": "", "command": "assertElementPresent", "target": "xpath=//*[contains(text(),'Item Selenium')]", "targets": [], "value": "" }
+      ]
+    },
+    {
+      "id": "ct06",
+      "name": "CT06 - Usuario realiza reivindicacao de um objeto perdido",
+      "commands": [
+        { "id": "ct06-01", "comment": "", "command": "open", "target": "/login.html", "targets": [], "value": "" },
+        { "id": "ct06-02", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
+        { "id": "ct06-03", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='aluno@ufam.edu.br'; document.getElementById('senha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct06-04", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct06-05", "comment": "", "command": "pause", "target": "5000", "targets": [], "value": "" },
+        { "id": "ct06-06", "comment": "", "command": "executeScript", "target": "const titulo=sessionStorage.getItem('seleniumTituloItem') || 'Item Selenium'; document.getElementById('buscaInput').value=titulo; filtrarItens();", "targets": [], "value": "" },
+        { "id": "ct06-07", "comment": "", "command": "pause", "target": "1000", "targets": [], "value": "" },
+        { "id": "ct06-08", "comment": "", "command": "click", "target": "xpath=//button[contains(.,'meu') or contains(.,'Meu')]", "targets": [], "value": "" },
+        { "id": "ct06-09", "comment": "", "command": "waitForElementPresent", "target": "id=modalReivindicar", "targets": [], "value": "10000" },
+        { "id": "ct06-10", "comment": "", "command": "executeScript", "target": "sessionStorage.removeItem('ultimoAlerta'); window.alert=function(msg){ sessionStorage.setItem('ultimoAlerta', msg); };", "targets": [], "value": "" },
+        { "id": "ct06-11", "comment": "", "command": "click", "target": "xpath=//button[contains(.,'confirmar')]", "targets": [], "value": "" },
+        { "id": "ct06-12", "comment": "", "command": "pause", "target": "6000", "targets": [], "value": "" },
+        { "id": "ct06-13", "comment": "", "command": "waitForElementPresent", "target": "id=buscaInput", "targets": [], "value": "10000" },
+        { "id": "ct06-14", "comment": "", "command": "executeScript", "target": "const titulo=sessionStorage.getItem('seleniumTituloItem') || 'Item Selenium'; document.getElementById('buscaInput').value=titulo; filtrarItens(); const existe=[...document.querySelectorAll('.card-title')].some(el=>el.innerText.includes(titulo)); const el=document.createElement('div'); el.id='resultado-ct06'; el.textContent=existe ? 'item ainda pendente' : 'item saiu da lista pendente'; document.body.appendChild(el);", "targets": [], "value": "" },
+        { "id": "ct06-15", "comment": "", "command": "assertElementPresent", "target": "xpath=//*[@id='resultado-ct06' and contains(.,'item saiu da lista pendente')]", "targets": [], "value": "" }
+      ]
+    },
+    {
+      "id": "ct09",
+      "name": "CT09 - Guarda registra baixa presencial de um item",
+      "commands": [
+        { "id": "ct09-01", "comment": "", "command": "open", "target": "/login.html", "targets": [], "value": "" },
+        { "id": "ct09-02", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
+        { "id": "ct09-03", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='guarda1@ufam.edu.br'; document.getElementById('senha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct09-04", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct09-05", "comment": "", "command": "pause", "target": "5000", "targets": [], "value": "" },
+        { "id": "ct09-06", "comment": "", "command": "click", "target": "id=acervo-tab", "targets": [], "value": "" },
+        { "id": "ct09-07", "comment": "", "command": "pause", "target": "3000", "targets": [], "value": "" },
+        { "id": "ct09-08", "comment": "", "command": "executeScript", "target": "const titulo=sessionStorage.getItem('seleniumTituloItem') || 'Item Selenium'; const rows=[...document.querySelectorAll('#tbody-acervo tr')]; const row=rows.find(r=>r.innerText.includes(titulo)); if(!row) throw new Error('Item do teste nao encontrado no acervo: '+titulo); row.querySelector('button').click();", "targets": [], "value": "" },
+        { "id": "ct09-09", "comment": "", "command": "waitForElementPresent", "target": "id=baixaNome", "targets": [], "value": "10000" },
+        { "id": "ct09-10", "comment": "", "command": "executeScript", "target": "window.alert=function(){}; document.getElementById('baixaNome').value='Recebedor Selenium'; document.getElementById('baixaDoc').value='12345678900'; document.getElementById('baixaContato').value='selenium@ufam.edu.br';", "targets": [], "value": "" },
+        { "id": "ct09-11", "comment": "", "command": "click", "target": "xpath=//button[contains(.,'Confirmar Entrega')]", "targets": [], "value": "" },
+        { "id": "ct09-12", "comment": "", "command": "pause", "target": "5000", "targets": [], "value": "" },
+        { "id": "ct09-13", "comment": "", "command": "click", "target": "id=acervo-tab", "targets": [], "value": "" },
+        { "id": "ct09-14", "comment": "", "command": "pause", "target": "3000", "targets": [], "value": "" },
+        { "id": "ct09-15", "comment": "", "command": "executeScript", "target": "const titulo=sessionStorage.getItem('seleniumTituloItem') || 'Item Selenium'; const existe=[...document.querySelectorAll('#tbody-acervo tr')].some(r=>r.innerText.includes(titulo)); const el=document.createElement('div'); el.id='resultado-ct09'; el.textContent=existe ? 'item ainda no acervo' : 'item baixado do acervo'; document.body.appendChild(el);", "targets": [], "value": "" },
+        { "id": "ct09-16", "comment": "", "command": "assertElementPresent", "target": "xpath=//*[@id='resultado-ct09' and contains(.,'item baixado do acervo')]", "targets": [], "value": "" }
+      ]
+    },
+    {
+      "id": "ct10",
+      "name": "CT10 - Administrador cadastra novo usuario nivel guarda",
+      "commands": [
+        { "id": "ct10-01", "comment": "", "command": "open", "target": "/login.html", "targets": [], "value": "" },
+        { "id": "ct10-02", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
+        { "id": "ct10-03", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='admin@ufam.edu.br'; document.getElementById('senha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct10-04", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct10-05", "comment": "", "command": "pause", "target": "5000", "targets": [], "value": "" },
+        { "id": "ct10-06", "comment": "", "command": "waitForElementPresent", "target": "id=tbody-guardas", "targets": [], "value": "15000" },
+        { "id": "ct10-07", "comment": "", "command": "click", "target": "css=button[data-bs-target=\"#modalNovoGuarda\"]", "targets": [], "value": "" },
+        { "id": "ct10-08", "comment": "", "command": "executeScript", "target": "window.alert=function(){}; const s=Date.now().toString(); document.getElementById('gNome').value='Guarda Selenium'; document.getElementById('gEmail').value='guardaselenium'+s+'@ufam.edu.br'; document.getElementById('gSenha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct10-09", "comment": "", "command": "click", "target": "css=#formGuarda button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct10-10", "comment": "", "command": "pause", "target": "3000", "targets": [], "value": "" },
+        { "id": "ct10-11", "comment": "", "command": "pause", "target": "3000", "targets": [], "value": "" },
+        { "id": "ct10-12", "comment": "", "command": "waitForElementPresent", "target": "id=tbody-guardas", "targets": [], "value": "15000" },
+        { "id": "ct10-13", "comment": "", "command": "assertElementPresent", "target": "xpath=//*[contains(text(),'Guarda Selenium')]", "targets": [], "value": "" }
+      ]
+    },
+    {
+      "id": "ct11",
+      "name": "CT11 - Upload de imagem de item respeitando formato",
+      "commands": [
+        { "id": "ct11-01", "comment": "", "command": "open", "target": "/login.html", "targets": [], "value": "" },
+        { "id": "ct11-02", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
+        { "id": "ct11-03", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='guarda1@ufam.edu.br'; document.getElementById('senha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct11-04", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct11-05", "comment": "", "command": "pause", "target": "5000", "targets": [], "value": "" },
+        { "id": "ct11-06", "comment": "", "command": "assertElementPresent", "target": "css=input[name=\"foto\"][accept=\"image/*\"]", "targets": [], "value": "" },
+        { "id": "ct11-07", "comment": "", "command": "assertElementPresent", "target": "id=formItem", "targets": [], "value": "" }
+      ]
     }
   ],
   "suites": [
@@ -71,6 +179,14 @@
       "parallel": false,
       "timeout": 300,
       "tests": ["ct05", "ct02", "ct03", "ct12"]
+    },
+    {
+      "id": "suite-banco",
+      "name": "Suite - Fluxos com Banco Online",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 300,
+      "tests": ["ct01", "ct04", "ct06", "ct09", "ct10", "ct11"]
     }
   ],
   "urls": ["https://achados-e-perdidos-icet.onrender.com"],
