@@ -111,8 +111,7 @@ window.carregarPendencias = async function() {
 
         lista.forEach(p => {
             const dataF = new Date(p.data_solicitacao).toLocaleDateString('pt-BR');
-            const fotoUrl = p.foto ? `${API_URL}/uploads/${p.foto}` : 'https://via.placeholder.com/50?text=Foto';
-
+           const fotoUrl = p.foto ? p.foto : 'https://via.placeholder.com/50?text=Foto';
             tbody.innerHTML += `
                 <tr>
                     <td>${p.nome_item}</td>

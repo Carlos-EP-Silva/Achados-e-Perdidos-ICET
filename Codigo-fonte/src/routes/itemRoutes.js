@@ -2,34 +2,32 @@
 const express = require('express');
 const router = express.Router();
 const itemController = require('../controllers/itemController');
-const roleMiddleware = require('../middlewares/roleMiddleware'); // Importa o middleware
+const roleMiddleware = require('../middlewares/roleMiddleware');
 const multer = require('multer');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-// --- Configuração do Upload de Imagens ---
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
+// 1. Configura as credenciais da nuvem
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Formato de arquivo inválido. Apenas JPG e PNG.'), false);
-    }
-};
 
+// 2. Configura o CloudinaryStorage
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'achados_perdidos_ufam',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
+  },
+});
+
+// 3. Substitui o Multer antigo por este
 const upload = multer({ 
-    storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Limite de 5MB
-    fileFilter: fileFilter
+    storage: storage, 
+    limits: { fileSize: 10 * 1024 * 1024 } 
 });
-
 // --- Definição das Rotas ---
 
 // GET /itens -> Lista tudo (Público)

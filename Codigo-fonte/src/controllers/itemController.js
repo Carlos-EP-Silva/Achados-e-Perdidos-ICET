@@ -35,7 +35,7 @@ exports.listarItens = async (req, res) => {
 exports.criarItem = async (req, res) => {
     // 1. Extraindo a categoria que o front-end enviou agora
     const { titulo, descricao, local_ocorrencia, data_ocorrencia, usuario_id, categoria } = req.body;
-    const foto = req.file ? req.file.filename : null;
+    const foto = req.file ? req.file.path : null;
 
     // 2. Validando se a categoria foi preenchida
     if (!titulo || !descricao || !local_ocorrencia || !data_ocorrencia || !usuario_id || !categoria) {

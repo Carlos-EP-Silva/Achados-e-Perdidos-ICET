@@ -59,7 +59,7 @@ function renderizarItens(lista) {
     lista.forEach(item => {
         if (item.status !== 'pendente') return;
 
-        const fotoUrl = item.foto ? `${API_URL}/uploads/${item.foto}` : 'https://via.placeholder.com/300x200?text=Sem+Foto';
+        const fotoUrl = p.foto ? p.foto : 'https://via.placeholder.com/50?text=Foto';
         const dataFormatada = new Date(item.data_ocorrencia).toLocaleDateString('pt-BR');
         const categoriaItem = item.categoria || 'Outros'; // Prevenção caso o item antigo não tenha categoria
 
