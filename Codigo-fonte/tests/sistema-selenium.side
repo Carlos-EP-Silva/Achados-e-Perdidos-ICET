@@ -1,0 +1,78 @@
+{
+  "id": "e0b09113-3f0d-4d83-bff5-6a2a34bb0a0f",
+  "version": "2.0",
+  "name": "Teste UFAM - Sistema",
+  "url": "https://achados-e-perdidos-icet.onrender.com",
+  "tests": [
+    {
+      "id": "ct05",
+      "name": "CT05 - Usuario visualiza e realiza busca na lista de itens",
+      "commands": [
+        { "id": "ct05-01", "comment": "", "command": "open", "target": "/", "targets": [], "value": "" },
+        { "id": "ct05-02", "comment": "", "command": "setWindowSize", "target": "1365x768", "targets": [], "value": "" },
+        { "id": "ct05-03", "comment": "", "command": "assertTitle", "target": "Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" },
+        { "id": "ct05-04", "comment": "", "command": "assertText", "target": "css=.navbar-brand", "targets": [], "value": "Achados & Perdidos ICET" },
+        { "id": "ct05-05", "comment": "", "command": "assertElementPresent", "target": "id=buscaInput", "targets": [], "value": "" },
+        { "id": "ct05-06", "comment": "", "command": "executeScript", "target": "document.getElementById('buscaInput').value='caderno'; filtrarItens();", "targets": [], "value": "" },
+        { "id": "ct05-07", "comment": "", "command": "assertValue", "target": "id=buscaInput", "targets": [], "value": "caderno" },
+        { "id": "ct05-08", "comment": "", "command": "assertElementPresent", "target": "id=lista-itens", "targets": [], "value": "" },
+        { "id": "ct05-09", "comment": "", "command": "click", "target": "xpath=//button[contains(.,'Ver Todos')]", "targets": [], "value": "" },
+        { "id": "ct05-10", "comment": "", "command": "assertValue", "target": "id=buscaInput", "targets": [], "value": "" }
+      ]
+    },
+    {
+      "id": "ct02",
+      "name": "CT02 - Usuario realiza login com sucesso e e redirecionado",
+      "commands": [
+        { "id": "ct02-01", "comment": "", "command": "open", "target": "/login.html", "targets": [], "value": "" },
+        { "id": "ct02-02", "comment": "", "command": "setWindowSize", "target": "1365x768", "targets": [], "value": "" },
+        { "id": "ct02-03", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
+        { "id": "ct02-04", "comment": "", "command": "assertTitle", "target": "Login - Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" },
+        { "id": "ct02-05", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='aluno@ufam.edu.br'; document.getElementById('senha').value='123456';", "targets": [], "value": "" },
+        { "id": "ct02-06", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct02-07", "comment": "", "command": "waitForElementPresent", "target": "id=buscaInput", "targets": [], "value": "20000" },
+        { "id": "ct02-08", "comment": "", "command": "assertTitle", "target": "Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" },
+        { "id": "ct02-09", "comment": "", "command": "assertText", "target": "css=.navbar-brand", "targets": [], "value": "Achados & Perdidos ICET" }
+      ]
+    },
+    {
+      "id": "ct03",
+      "name": "CT03 - Tentativa de login barrada por senha incorreta",
+      "commands": [
+        { "id": "ct03-01", "comment": "", "command": "open", "target": "/login.html", "targets": [], "value": "" },
+        { "id": "ct03-02", "comment": "", "command": "setWindowSize", "target": "1365x768", "targets": [], "value": "" },
+        { "id": "ct03-03", "comment": "", "command": "waitForElementPresent", "target": "id=email", "targets": [], "value": "20000" },
+        { "id": "ct03-04", "comment": "", "command": "executeScript", "target": "document.getElementById('email').value='aluno@ufam.edu.br'; document.getElementById('senha').value='senha_errada';", "targets": [], "value": "" },
+        { "id": "ct03-05", "comment": "", "command": "click", "target": "css=#formLogin button[type=\"submit\"]", "targets": [], "value": "" },
+        { "id": "ct03-06", "comment": "", "command": "assertAlert", "target": "Erro: Email ou senha incorretos", "targets": [], "value": "" },
+        { "id": "ct03-07", "comment": "", "command": "acceptAlert", "target": "", "targets": [], "value": "" },
+        { "id": "ct03-08", "comment": "", "command": "assertTitle", "target": "Login - Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" }
+      ]
+    },
+    {
+      "id": "ct12",
+      "name": "CT12 - Bloqueio de acesso nao autorizado a area de administracao",
+      "commands": [
+        { "id": "ct12-01", "comment": "", "command": "open", "target": "/", "targets": [], "value": "" },
+        { "id": "ct12-02", "comment": "", "command": "executeScript", "target": "window.localStorage.clear();", "targets": [], "value": "" },
+        { "id": "ct12-03", "comment": "", "command": "open", "target": "/admin.html", "targets": [], "value": "" },
+        { "id": "ct12-04", "comment": "", "command": "waitForElementPresent", "target": "css=.navbar-brand", "targets": [], "value": "10000" },
+        { "id": "ct12-05", "comment": "", "command": "assertTitle", "target": "Achados & Perdidos - ICET/UFAM", "targets": [], "value": "" },
+        { "id": "ct12-06", "comment": "", "command": "assertText", "target": "css=.navbar-brand", "targets": [], "value": "Achados & Perdidos ICET" },
+        { "id": "ct12-07", "comment": "", "command": "assertElementNotPresent", "target": "xpath=//*[contains(text(),'Painel Administrativo')]", "targets": [], "value": "" }
+      ]
+    }
+  ],
+  "suites": [
+    {
+      "id": "suite-sistema",
+      "name": "Suite - Testes de Sistema do Documento",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 300,
+      "tests": ["ct05", "ct02", "ct03", "ct12"]
+    }
+  ],
+  "urls": ["https://achados-e-perdidos-icet.onrender.com"],
+  "plugins": []
+}

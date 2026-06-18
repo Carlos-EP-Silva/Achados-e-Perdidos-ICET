@@ -24,6 +24,7 @@ CREATE TABLE itens (
     data_ocorrencia DATE NOT NULL,
     status ENUM('pendente', 'reivindicado', 'devolvido', 'arquivado') DEFAULT 'pendente',
     usuario_id INT NOT NULL,
+    categoria VARCHAR(50) NOT NULL DEFAULT 'Outros',
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE RESTRICT
 );

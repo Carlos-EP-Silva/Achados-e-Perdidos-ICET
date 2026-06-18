@@ -67,7 +67,10 @@ if (formItem) {
                 body: formData
             });
 
-            const data = await res.json();
+            const contentType = res.headers.get('content-type') || '';
+            const data = contentType.includes('application/json')
+                ? await res.json()
+                : { message: await res.text() };
 
             if (res.ok) {
                 alert('Item cadastrado com sucesso!');
